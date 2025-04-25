@@ -6,17 +6,19 @@
 //
 
 import SwiftUI
-struct Dogumyil: View {
+struct DogumYiliInputView: View {
     @State private var selectedDay = 5
     @State private var selectedMonth = "Ağustos"
     @State private var selectedYear = 2000
+    @Environment(\.dismiss) var dismiss
+
 
     let days = Array(1...31)
     let months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
     let years = Array(1950...2025)
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 VStack {
                     Text("Doğum tarihin?")
@@ -58,19 +60,28 @@ struct Dogumyil: View {
                     Spacer()
 
                     NavigationLink {
-                        Boy()
+                        BoyKiloInputView()
                             .navigationBarBackButtonHidden()
                     } label: {
                         ButtonCompenet(tiitle: "Devam")
                     }
                     .padding(.bottom)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
+                .toolbar{
+                    ToolbarItem(placement: .topBarLeading) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.black)
+                            .imageScale(.large)
+                            .onTapGesture {
+                                dismiss()
+                            }
+                    }
+                }
             }
         }
     }
 }
 
 #Preview {
-    Dogumyil()
+    DogumYiliInputView()
 }

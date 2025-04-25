@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
-struct Boy: View {
+struct BoyKiloInputView: View {
     @State private var selectedHeight = 170
     @State private var selectedHeight1 = 170
     let heights = Array(150...220)
+    @Environment(\.dismiss) var dismiss
+
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 // button boyutlandirmak icin
                 VStack(alignment: .center) {
@@ -37,11 +39,21 @@ struct Boy: View {
                     }
                     .padding(.bottom)
                 }
+                .toolbar{
+                    ToolbarItem(placement: .topBarLeading) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.black)
+                            .imageScale(.large)
+                            .onTapGesture {
+                                dismiss()
+                            }
+                    }
+                }
                 
             }
         }
     }
 }
 #Preview {
-    Boy()
+    BoyKiloInputView()
 }

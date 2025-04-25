@@ -13,7 +13,7 @@ struct Diyet4ooApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Cinsiyet()
+            CinsiyetInputView()
                // .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

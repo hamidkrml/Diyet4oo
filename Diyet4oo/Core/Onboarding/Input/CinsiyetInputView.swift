@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct Cinsiyet: View {
+struct CinsiyetInputView: View {
     let cinsiyetler = ["Erkek", "Kadın", "Belirtmek İstemiyorum"]
     @State private var selectedGender = "Belirtmek İstemiyorum"
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 
                 VStack {
@@ -25,15 +26,24 @@ struct Cinsiyet: View {
                     .position(x: geometry.size.width / 2 , y: geometry.size.height / 3)
                     
                     NavigationLink {
-                        Dogumyil()
+                        DogumYiliInputView()
                             .navigationBarBackButtonHidden()
-
+                        
                     } label: {
                         ButtonCompenet(tiitle: "Devam")
                     }
                     .padding(.bottom)
                 }
-                
+                .toolbar{
+                    ToolbarItem(placement: .topBarLeading) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.black)
+                            .imageScale(.large)
+                            .onTapGesture {
+                                dismiss()
+                            }
+                    }
+                }
                 
             }
         }
@@ -42,5 +52,5 @@ struct Cinsiyet: View {
 }
 
 #Preview {
-    Cinsiyet()
+    CinsiyetInputView()
 }
