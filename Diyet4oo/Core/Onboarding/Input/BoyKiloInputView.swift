@@ -18,7 +18,7 @@ struct BoyKiloInputView: View {
             GeometryReader { geometry in
                 // button boyutlandirmak icin
                 VStack(alignment: .center) {
-                    
+                    ProgressBarView(currentStep: 3, totalSteps: 3)
                     // picker boyutlandirmak icin
                     VStack(spacing: geometry.size.width * 0.09) {
                         TextPickerComppent(baslik: "Boyunuz: ", deger: $selectedHeight, secenekler: heights)

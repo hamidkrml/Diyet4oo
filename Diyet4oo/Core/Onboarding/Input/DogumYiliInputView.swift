@@ -15,8 +15,9 @@ struct DogumYiliInputView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                VStack(spacing: 20) {
-                    TitleView("Doğum tarihin?")
+                VStack(spacing: 10) {
+                    ProgressBarView(currentStep: 2, totalSteps: 3)
+                    
                     
                     DatePickersView(
                         selectedDay: $selectedDay,
@@ -37,19 +38,7 @@ struct DogumYiliInputView: View {
 }
 
 // MARK: - Subviews
-private struct TitleView: View {
-    let text: String
-    
-    init(_ text: String) {
-        self.text = text
-    }
-    
-    var body: some View {
-        Text(text)
-            .font(.title2.bold())
-            .padding(.top, 30)
-    }
-}
+
 
 private struct DatePickersView: View {
     @Binding var selectedDay: Int
@@ -71,13 +60,18 @@ private struct DatePickersView: View {
     }
     
     var body: some View {
-        HStack(spacing: geometry.size.width * 0.05) {
-            WheelPicker(selection: $selectedDay, data: days, widthRatio: 0.1)
-            WheelPicker(selection: $selectedMonth, data: months, widthRatio: 0.35)
-            WheelPicker(selection: $selectedYear, data: years, widthRatio: 0.2)
+        VStack {
+            Text("Dogum Tarihiniz")
+                .font(.title2.bold())
+                .padding(.top)
+            HStack(spacing: geometry.size.width * 0.05) {
+                WheelPicker(selection: $selectedDay, data: days, widthRatio: 0.1)
+                WheelPicker(selection: $selectedMonth, data: months, widthRatio: 0.35)
+                WheelPicker(selection: $selectedYear, data: years, widthRatio: 0.2)
+            }
+            .frame(height: geometry.size.height * 0.5)
+            .padding(.top, geometry.size.height * 0.05)
         }
-        .frame(height: geometry.size.height * 0.5)
-        .padding(.top, geometry.size.height * 0.15)
     }
 }
 

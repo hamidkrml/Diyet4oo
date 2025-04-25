@@ -9,11 +9,12 @@ import SwiftUI
 
  struct NavigationButton: View {
     let destination: any View
-    
+   
     var body: some View {
         NavigationLink {
             AnyView(destination)
                 .navigationBarBackButtonHidden()
+                
         } label: {
             ButtonCompenet(tiitle: "Devam")
         }

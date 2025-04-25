@@ -11,13 +11,16 @@ struct CinsiyetInputView: View {
     let cinsiyetler = ["Erkek", "Kadın", "Belirtmek İstemiyorum"]
     @State private var selectedGender = "Belirtmek İstemiyorum"
     @Environment(\.dismiss) var dismiss
-    
+    @EnvironmentObject var vm: RegistrationViewModel
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
                 
                 VStack {
+                    ProgressBarView(currentStep: 1, totalSteps: 3)
+                      
                     VStack {
+                        
                         TextPickerComppent(baslik: "Cinsiyetiniz: ", deger: $selectedGender, secenekler: cinsiyetler)
                             .pickerStyle(.wheel)
                     }
@@ -26,6 +29,7 @@ struct CinsiyetInputView: View {
                     .position(x: geometry.size.width / 2 , y: geometry.size.height / 3)
                     
                     NavigationButton(destination: DogumYiliInputView())
+                        
                     .padding(.bottom)
                 }
                 .toolbar { BackToolbarItem(dismiss: dismiss) }

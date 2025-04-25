@@ -8,7 +8,7 @@
 import SwiftUI
 struct BackToolbarItem: ToolbarContent {
    let dismiss: DismissAction
-   
+    
    var body: some ToolbarContent {
        ToolbarItem(placement: .topBarLeading) {
            Image(systemName: "chevron.left")
