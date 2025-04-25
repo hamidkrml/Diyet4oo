@@ -25,26 +25,10 @@ struct CinsiyetInputView: View {
                     .padding(.top,geometry.size.width * 0.5)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height / 3)
                     
-                    NavigationLink {
-                        DogumYiliInputView()
-                            .navigationBarBackButtonHidden()
-                        
-                    } label: {
-                        ButtonCompenet(tiitle: "Devam")
-                    }
+                    NavigationButton(destination: DogumYiliInputView())
                     .padding(.bottom)
                 }
-                .toolbar{
-                    ToolbarItem(placement: .topBarLeading) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.black)
-                            .imageScale(.large)
-                            .onTapGesture {
-                                dismiss()
-                            }
-                    }
-                }
-                
+                .toolbar { BackToolbarItem(dismiss: dismiss) }
             }
         }
         

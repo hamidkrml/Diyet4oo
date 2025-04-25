@@ -8,80 +8,99 @@
 import SwiftUI
 struct DogumYiliInputView: View {
     @State private var selectedDay = 5
-    @State private var selectedMonth = "Ağustos"
+    @State private var selectedMonth = DateFormatter().monthSymbols[7] // Ağustos
     @State private var selectedYear = 2000
     @Environment(\.dismiss) var dismiss
-
-
-    let days = Array(1...31)
-    let months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
-    let years = Array(1950...2025)
     
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                VStack {
-                    Text("Doğum tarihin?")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.top, geometry.size.height * 0.05)
-
-                    HStack(spacing: geometry.size.width * 0.05) {
-                        Picker(selection: $selectedDay, label: Text("")) {
-                            ForEach(days, id: \.self) { day in
-                                Text("\(day)").tag(day)
-                            }
-                        }
-                        .pickerStyle(.wheel)
-                        .frame(width: geometry.size.width * 0.1)
-                        .clipped()
-
-                        Picker(selection: $selectedMonth, label: Text("")) {
-                            ForEach(months, id: \.self) { month in
-                                Text(month).tag(month)
-                            }
-                        }
-                        .pickerStyle(.wheel)
-                        .frame(width: geometry.size.width * 0.35)
-                        .clipped()
-
-                        Picker(selection: $selectedYear, label: Text("")) {
-                            ForEach(years, id: \.self) { year in
-                                Text("\(year)").tag(year)
-                            }
-                        }
-                        .pickerStyle(.wheel)
-                        .frame(width: geometry.size.width * 0.2)
-                        .clipped()
-                    }
-                    .frame(height: geometry.size.height * 0.5)
-                    .padding(.top, geometry.size.height * 0.15)
-
+                VStack(spacing: 20) {
+                    TitleView("Doğum tarihin?")
+                    
+                    DatePickersView(
+                        selectedDay: $selectedDay,
+                        selectedMonth: $selectedMonth,
+                        selectedYear: $selectedYear,
+                        geometry: geometry
+                    )
+                    
                     Spacer()
-
-                    NavigationLink {
-                        BoyKiloInputView()
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        ButtonCompenet(tiitle: "Devam")
-                    }
-                    .padding(.bottom)
+                    
+                    NavigationButton(destination: BoyKiloInputView())
+                        .padding(.bottom)
                 }
-                .toolbar{
-                    ToolbarItem(placement: .topBarLeading) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.black)
-                            .imageScale(.large)
-                            .onTapGesture {
-                                dismiss()
-                            }
-                    }
-                }
+                .toolbar { BackToolbarItem(dismiss: dismiss) }
             }
         }
     }
 }
 
-#Preview {
+// MARK: - Subviews
+private struct TitleView: View {
+    let text: String
+    
+    init(_ text: String) {
+        self.text = text
+    }
+    
+    var body: some View {
+        Text(text)
+            .font(.title2.bold())
+            .padding(.top, 30)
+    }
+}
+
+private struct DatePickersView: View {
+    @Binding var selectedDay: Int
+    @Binding var selectedMonth: String
+    @Binding var selectedYear: Int
+    let geometry: GeometryProxy
+    
+    private var months: [String] {
+        DateFormatter().monthSymbols
+    }
+    
+    private var days: [Int] {
+        let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: months.firstIndex(of: selectedMonth)! + 1))!
+        return Array(1...Calendar.current.range(of: .day, in: .month, for: date)!.count)
+    }
+    
+    private var years: [Int] {
+        Array(1950...Calendar.current.component(.year, from: Date()))
+    }
+    
+    var body: some View {
+        HStack(spacing: geometry.size.width * 0.05) {
+            WheelPicker(selection: $selectedDay, data: days, widthRatio: 0.1)
+            WheelPicker(selection: $selectedMonth, data: months, widthRatio: 0.35)
+            WheelPicker(selection: $selectedYear, data: years, widthRatio: 0.2)
+        }
+        .frame(height: geometry.size.height * 0.5)
+        .padding(.top, geometry.size.height * 0.15)
+    }
+}
+
+private struct WheelPicker<T: Hashable>: View {
+    @Binding var selection: T
+    let data: [T]
+    let widthRatio: CGFloat
+    
+    var body: some View {
+        Picker("", selection: $selection) {
+            ForEach(data, id: \.self) { item in
+                Text("\(item)")
+                    .tag(item)
+            }
+        }
+        .pickerStyle(.wheel)
+        .frame(width: UIScreen.main.bounds.width * widthRatio)
+        .clipped()
+    }
+}
+
+
+ 
+#Preview{
     DogumYiliInputView()
 }

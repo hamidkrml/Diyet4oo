@@ -11,7 +11,7 @@ struct BoyKiloInputView: View {
     @State private var selectedHeight1 = 170
     let heights = Array(150...220)
     @Environment(\.dismiss) var dismiss
-
+    
     
     var body: some View {
         NavigationStack {
@@ -30,25 +30,10 @@ struct BoyKiloInputView: View {
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 4)
                     
                     Spacer()
-                    NavigationLink{
-                       // .navigationBarBackButtonHidden()
-
-                    }label: {
-                        ButtonCompenet(tiitle: "Devam")
-                        
-                    }
+                    NavigationButton(destination: CinsiyetInputView())
                     .padding(.bottom)
                 }
-                .toolbar{
-                    ToolbarItem(placement: .topBarLeading) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.black)
-                            .imageScale(.large)
-                            .onTapGesture {
-                                dismiss()
-                            }
-                    }
-                }
+                .toolbar { BackToolbarItem(dismiss: dismiss) }
                 
             }
         }
