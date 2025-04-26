@@ -11,7 +11,7 @@ struct CinsiyetInputView: View {
     let cinsiyetler = ["Erkek", "Kadın", "Belirtmek İstemiyorum"]
     @State private var selectedGender = "Belirtmek İstemiyorum"
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vm: RegistrationViewModel
+    
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in

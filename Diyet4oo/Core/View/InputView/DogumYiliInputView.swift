@@ -12,6 +12,7 @@ struct DogumYiliInputView: View {
     @State private var selectedYear = 2000
     @Environment(\.dismiss) var dismiss
     
+    
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in

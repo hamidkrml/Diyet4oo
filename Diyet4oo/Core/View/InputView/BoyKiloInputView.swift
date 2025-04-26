@@ -31,7 +31,7 @@ struct BoyKiloInputView: View {
                     
                     Spacer()
                     NavigationButton(destination: CinsiyetInputView())
-                    .padding(.bottom)
+                        .padding(.bottom)
                 }
                 .toolbar { BackToolbarItem(dismiss: dismiss) }
                 
