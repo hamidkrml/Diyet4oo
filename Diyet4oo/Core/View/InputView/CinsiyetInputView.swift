@@ -12,25 +12,21 @@ struct CinsiyetInputView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var ViewModel: InputViewModel
     var body: some View {
-        NavigationStack {
+        NavigationView {
             GeometryReader { geometry in
                 
                 VStack {
                     ProgressBarView(currentStep: 1, totalSteps: 4)
-                      
-                    VStack {
-                        
-                        TextPickerComppent(baslik: "Cinsiyetiniz: ", deger: $ViewModel.selectedGender, secenekler: cinsiyetler)
-                            .pickerStyle(.wheel)
-                    }
-                    .frame(width: geometry.size.width * 0.6,height: geometry.size.height * 0.6)
-                    .padding(.top,geometry.size.width * 0.5)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height / 3)
                     
+                    
+                    Spacer()
+                    TextPickerComppent(baslik: "Cinsiyetiniz: ", deger: $ViewModel.selectedGender, secenekler: cinsiyetler)
+                        .pickerStyle(.wheel)
+                    
+                    Spacer()
                     NavigationButton(destination: DogumYiliInputView()
                         .environmentObject(ViewModel))
-                        
-                    .padding(.bottom)
+                    
                 }
                 .toolbar { BackToolbarItem(dismiss: dismiss) }
             }
