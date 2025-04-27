@@ -10,11 +10,11 @@ import SwiftUI
 @main
 struct Diyet4ooApp: App {
     //let persistenceController = PersistenceController.shared
-    @StateObject var vm = RegistrationViewModel()
+    @StateObject var viewModel = InputViewModel()
     var body: some Scene {
         WindowGroup {
-            CinsiyetInputView()
-                .environmentObject(vm)
+            Onboarding()
+                .environmentObject(viewModel)
                // .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

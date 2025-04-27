@@ -10,7 +10,7 @@ import SwiftUI
 struct HedefInputView: View {
     
      let hedefKilon = Array(40...120)
-     let HedefHaftan = Array(4...30)
+     let HedefHaftan = Array(1...30)
      @Environment(\.dismiss) var dismiss
      @EnvironmentObject var ViewModel: InputViewModel
 
@@ -20,11 +20,13 @@ struct HedefInputView: View {
              GeometryReader { geometry in
                  // button boyutlandirmak icin
                  VStack(alignment: .center) {
-                     ProgressBarView(currentStep: 3, totalSteps: 3)
+                     ProgressBarView(currentStep: 4, totalSteps: 4)
                      // picker boyutlandirmak icin
                      VStack(spacing: geometry.size.width * 0.09) {
                          TextPickerComppent(baslik: "Hedef Kilon: ", deger: $ViewModel.hedefKilon, secenekler: hedefKilon)
                          TextPickerComppent(baslik: "Hedef Haftan: ", deger: $ViewModel.hdefHaftan, secenekler: HedefHaftan)
+                        
+                         
                      }
                      .pickerStyle(.wheel)
                      .frame(width: geometry.size.width * 0.6,height: geometry.size.height * 0.6)
@@ -39,6 +41,7 @@ struct HedefInputView: View {
                  
              }
          }
+        
      }
 }
 

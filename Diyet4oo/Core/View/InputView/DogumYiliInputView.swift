@@ -7,29 +7,30 @@
 
 import SwiftUI
 struct DogumYiliInputView: View {
-    @State private var selectedDay = 5
-    @State private var selectedMonth = DateFormatter().monthSymbols[7] // Ağustos
-    @State private var selectedYear = 2000
-    @Environment(\.dismiss) var dismiss
     
+   
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var ViewModel: InputViewModel
+
     
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                VStack(spacing: 10) {
-                    ProgressBarView(currentStep: 2, totalSteps: 3)
+                VStack(spacing: 20) {
+                    ProgressBarView(currentStep: 2, totalSteps: 4)
                     
-                    
+                    Spacer()
                     DatePickersView(
-                        selectedDay: $selectedDay,
-                        selectedMonth: $selectedMonth,
-                        selectedYear: $selectedYear,
+                        selectedDay: $ViewModel.selectedDay,
+                        selectedMonth: $ViewModel.selectedMonth,
+                        selectedYear: $ViewModel.selectedYear,
                         geometry: geometry
                     )
                     
                     Spacer()
                     
-                    NavigationButton(destination: BoyKiloInputView())
+                    NavigationButton(destination: BoyKiloInputView()
+                        .environmentObject(ViewModel))
                         .padding(.bottom)
                 }
                 .toolbar { BackToolbarItem(dismiss: dismiss) }
@@ -51,7 +52,7 @@ private struct DatePickersView: View {
         DateFormatter().monthSymbols
     }
     
-    private var days: [Int] {
+   var days: [Int] {
         let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: months.firstIndex(of: selectedMonth)! + 1))!
         return Array(1...Calendar.current.range(of: .day, in: .month, for: date)!.count)
     }
@@ -64,15 +65,17 @@ private struct DatePickersView: View {
         VStack {
             Text("Dogum Tarihiniz")
                 .font(.title2.bold())
-                .padding(.top)
-            HStack(spacing: geometry.size.width * 0.05) {
-                WheelPicker(selection: $selectedDay, data: days, widthRatio: 0.1)
+                
+            HStack(spacing: geometry.size.height * 0.08) {
+                WheelPicker(selection: $selectedDay, data: days, widthRatio: 0.18)
                 WheelPicker(selection: $selectedMonth, data: months, widthRatio: 0.35)
                 WheelPicker(selection: $selectedYear, data: years, widthRatio: 0.2)
             }
-            .frame(height: geometry.size.height * 0.5)
-            .padding(.top, geometry.size.height * 0.05)
+            
         }
+        .frame(height: geometry.size.height * 0.5)
+//        .padding(.top, geometry.size.height * 0.07)
+
     }
 }
 
