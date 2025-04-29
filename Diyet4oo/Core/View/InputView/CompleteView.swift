@@ -12,20 +12,20 @@ struct CompleteView: View {
     
     var body: some View {
         let gunlukKalori = ViewModel.gunlukKaloriIhtiyaci()
-        VStack(spacing: 30) {
-            Text(ViewModel.selectedGender)
-            Text(ViewModel.selectedMonth)
-            Text(String(ViewModel.selectedDay))
-            Text(String(ViewModel.selectedYear))
-            Text(String(ViewModel.selectedHeight))
-            Text(String(ViewModel.selectedWeight))
-            Text(String(gunlukKalori))
+        NavigationView {
+            VStack(spacing: 30) {
+                Text(ViewModel.selectedGender)
+                Text(ViewModel.selectedMonth)
+                Text(String(ViewModel.selectedDay))
+                Text(String(ViewModel.selectedYear))
+                Text(String(ViewModel.selectedHeight))
+                Text(String(ViewModel.selectedWeight))
+                Text(String(gunlukKalori))
+                
+                NavigationButton(destination: MainTabView())
+            }
         }
        
 
     }
-}
-
-#Preview {
-    CompleteView()
 }
