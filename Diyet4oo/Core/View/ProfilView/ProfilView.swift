@@ -8,18 +8,17 @@
 import SwiftUI
 struct ProfilView:View {
     var body: some View {
-        VStack(spacing: 15){
+        VStack{
             productCard(image: "icon", title: "Kahvalti")
             Divider()
             productCard(image: "icon", title: "Öğle Yemeği")
             Divider()
-
+            
             productCard(image: "icon", title: "Akşam Yemeği")
             Divider()
-
             productCard(image: "icon", title: "Ara Ögün")
             Divider()
-
+            
         }
         
     }
@@ -43,31 +42,56 @@ struct productCard: View {
     var title : String
     
     var body: some View {
-        
-        HStack{
-            
-            HStack {
-                Image(image)
-                    .resizable()
-                    .clipShape(Circle())
-                    .frame(width: 70,height: 70)
-                Spacer()
-                Text(title)
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
+        ScrollView {
+            VStack{
+                HStack{
                     
-                    .padding()
-                Spacer()
+                    HStack {
+                        Image(image)
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 70,height: 70)
+                        Spacer()
+                        Text(title)
+                            .font(.footnote)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.center)
+                        
+                            .padding()
+                        Spacer()
+                    }
+                    Spacer()
+                    Image(systemName:"plus")
+                        .resizable()
+                        .frame(width: 30,height: 30)
+                    
+                }
+                .padding(.horizontal)
+                
+                
+                VStack(spacing: 10) {
+                    HStack{
+                        
+                        Text("Önerilen")
+                            .font(.callout)
+                        Spacer()
+                    }
+                    HStack{
+                        
+                        Text("8000 kcal")
+                            .font(.footnote)
+                        Spacer()
+                    }
+                    
+                }
+                
+                
+                
             }
-            Spacer()
-            Image(systemName:"plus")
-                .resizable()
-                .frame(width: 30,height: 30)
-      
-        }.padding(.horizontal)
+            .padding(.leading)
             .background(Color.white.opacity(0.2))
             .modifier(CardModifier())
+        }
     }
 }
 
