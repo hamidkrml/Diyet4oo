@@ -6,13 +6,68 @@
 //
 
 import SwiftUI
-
-struct ProfilView: View {
+struct ProfilView:View {
     var body: some View {
-        Text("ProfilView")
+        VStack(spacing: 15){
+            productCard(image: "icon", title: "Kahvalti")
+            Divider()
+            productCard(image: "icon", title: "Öğle Yemeği")
+            Divider()
+
+            productCard(image: "icon", title: "Akşam Yemeği")
+            Divider()
+
+            productCard(image: "icon", title: "Ara Ögün")
+            Divider()
+
+        }
+        
     }
 }
 
-#Preview {
+#Preview{
     ProfilView()
 }
+
+struct CardModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+        
+            .cornerRadius(10)
+            .shadow(color:Color.green.opacity(0.65), radius: 10, x: 0, y: 5)
+    }
+}
+
+struct productCard: View {
+    var image : String
+    var title : String
+    
+    var body: some View {
+        
+        HStack{
+            
+            HStack {
+                Image(image)
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 70,height: 70)
+                Spacer()
+                Text(title)
+                    .font(.footnote)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+                    
+                    .padding()
+                Spacer()
+            }
+            Spacer()
+            Image(systemName:"plus")
+                .resizable()
+                .frame(width: 30,height: 30)
+      
+        }.padding(.horizontal)
+            .background(Color.white.opacity(0.2))
+            .modifier(CardModifier())
+    }
+}
+
