@@ -7,49 +7,59 @@
 
 import CoreData
 
+import SwiftUI
 
 class CoreDataManager {
-    // Singleton pattern ile tek bir instance kullan
     static let shared = CoreDataManager()
     private init() {}
     
+    
+    
+    
     // MARK: - Persistent Container
-    // Veritabanı ve model yapılandırması
     lazy var persistentContainer: NSPersistentContainer = {
-        let modelName = "diyet4oo"
+        let modelName = "diyet4oo" // Data Model dosyanızın adı
         let container = NSPersistentContainer(name: modelName)
         
-        container.loadPersistentStores { storeDescription, error in
-            if let error = error as NSError? {
-                fatalError("Persistent store yüklenemedi: \(error)")
+        
+        let storeDescription = container.persistentStoreDescriptions.first
+        
+        // Lightweight Migration aktif et (Model değişikliklerinde otomatik geçiş)
+        storeDescription?.setOption(true as NSNumber, forKey: NSMigratePersistentStoresAutomaticallyOption)
+        storeDescription?.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
+        
+        container.loadPersistentStores { [weak self] _, error in
+            if let error = error {
+                
             }
         }
-        
-        // Ana context otomatik olarak değişiklikleri birleştirsin
+        // Main thread kısıtlaması (UI için güvenlik)
+
         container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.shouldDeleteInaccessibleFaults = true
         return container
     }()
-    
-    // MARK: - Context'ler
-    // UI işlemleri için ana context
     var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }
     
-    // Arka plan işlemleri için yeni context
+    // Background Context
     func backgroundContext() -> NSManagedObjectContext {
-        return persistentContainer.newBackgroundContext()
+        persistentContainer.newBackgroundContext()
     }
     
-    // MARK: - Save İşlemi
-    // Değişiklikleri kaydet (Context parametresi ile esnek kullanım)
-    func saveContext(_ context: NSManagedObjectContext) {
-        guard context.hasChanges else { return }
+    // Save işlemi
+    func saveContext(_ context: NSManagedObjectContext)->Result<Void, Error> {
+        guard context.hasChanges else { return .success(()) }
         
         do {
             try context.save()
+            return .success(())
         } catch {
-            print("Kaydetme hatası: \(error.localizedDescription)")
+            context.rollback()
+            return .failure(error)
         }
     }
 }
+

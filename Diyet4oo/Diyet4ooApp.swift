@@ -9,13 +9,13 @@ import SwiftUI
 
 @main
 struct Diyet4ooApp: App {
-    //let persistenceController = PersistenceController.shared
+    let Coredata = CoreDataManager.shared.viewContext
     @StateObject var viewModel = InputViewModel()
     var body: some Scene {
         WindowGroup {
             Onboarding()
                 .environmentObject(viewModel)
-               // .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, Coredata)
         }
     }
 }

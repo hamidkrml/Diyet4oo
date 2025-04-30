@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		03CA22582DC2E12C0087265A /* UserProfile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CA22562DC2E12C0087265A /* UserProfile+CoreDataClass.swift */; };
+		03CA22592DC2E12C0087265A /* UserProfile+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CA22572DC2E12C0087265A /* UserProfile+CoreDataProperties.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		03CA22562DC2E12C0087265A /* UserProfile+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfile+CoreDataClass.swift"; sourceTree = "<group>"; };
+		03CA22572DC2E12C0087265A /* UserProfile+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfile+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		03DC3ADF2DBBA0590039CEFE /* Diyet4oo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diyet4oo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -32,6 +39,8 @@
 		03DC3AD62DBBA0590039CEFE = {
 			isa = PBXGroup;
 			children = (
+				03CA22562DC2E12C0087265A /* UserProfile+CoreDataClass.swift */,
+				03CA22572DC2E12C0087265A /* UserProfile+CoreDataProperties.swift */,
 				03DC3AE12DBBA0590039CEFE /* Diyet4oo */,
 				03DC3AE02DBBA0590039CEFE /* Products */,
 			);
@@ -119,6 +128,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03CA22582DC2E12C0087265A /* UserProfile+CoreDataClass.swift in Sources */,
+				03CA22592DC2E12C0087265A /* UserProfile+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
