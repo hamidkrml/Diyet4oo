@@ -28,7 +28,15 @@ struct ProfilView:View {
                     
                 }.padding(.horizontal)
             }.navigationTitle("Bugun")
-            
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {
+                            print("Takvim butonuna tıklandı")
+                        }) {
+                            calendarIconView()
+                        }
+                    }
+                }
         }
         
     }
@@ -42,11 +50,15 @@ struct ProfilView:View {
 
 
 
-
-
-
-
-
-
-
-
+///MARK:- Tabardaki button ozeligi
+@ViewBuilder
+func calendarIconView() -> some View {
+    if #available(iOS 18.0, *) {
+        Image(systemName: "calendar.and.person")
+            .symbolEffect(.breathe.pulse.wholeSymbol, options: .repeat(.continuous))
+            .foregroundStyle(Color("Text"))
+    } else {
+        Image(systemName: "calendar.and.person")
+    }
+    /// yeni tab button eklense buraya eklenecek 
+}

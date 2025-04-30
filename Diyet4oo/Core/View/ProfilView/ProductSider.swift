@@ -16,6 +16,8 @@ struct productSider:View{
         VStack(spacing: 20){
             
             Text("Kalori Takibi")
+         
+            
             HStack(spacing: 20){
                 Spacer()
                 VStack{

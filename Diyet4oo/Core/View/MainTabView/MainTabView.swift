@@ -16,10 +16,10 @@ struct MainTabView: View {
                     Label("Günlük", systemImage: "book.pages")
                 }
             
-            ProfilView()
-                .tabItem {
-                    Label("Profil", systemImage: "person.fill")
-                }
+//            ProfilView()
+//                .tabItem {
+//                    Label("Profil", systemImage: "person.fill")
+//                }
             
         }
     }
