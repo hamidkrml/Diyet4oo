@@ -18,8 +18,8 @@ extension UserProfile {
 
     @NSManaged public var id: UUID?
     @NSManaged public var gender: String?
-    @NSManaged public var birtyDay: Int32
-    @NSManaged public var birtyMonth: String?
+    @NSManaged public var birthDay: Int32
+    @NSManaged public var birthMonth: String?
     @NSManaged public var birthYear: Int32
     @NSManaged public var height: Int32
     @NSManaged public var weight: Int32

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CompleteView: View {
     @EnvironmentObject var ViewModel: InputViewModel
-    
+   
     var body: some View {
         let gunlukKalori = ViewModel.gunlukKaloriIhtiyaci()
         NavigationView {
@@ -22,10 +22,15 @@ struct CompleteView: View {
                 Text(String(ViewModel.selectedWeight))
                 Text(String(gunlukKalori))
                 
-                NavigationButton(destination: MainTabView())
+                Button("action: ") {
+                    ViewModel.verileriKaydet()
+                }
+                NavigationButton(destination: UserProfileListView())
+            }.alert(isPresented: $ViewModel.showAlert) {
+                Alert(title: Text("Bilgi"), message: Text(ViewModel.kayitDurumuMesaji ?? ""), dismissButton: .default(Text("Tamam")))
             }
         }
-       
+        
 
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-
+import CoreData
 class InputViewModel : ObservableObject {
        @Published var selectedGender = "Belirtmek İstemiyorum"
        @Published var selectedDay = 5
@@ -18,9 +18,52 @@ class InputViewModel : ObservableObject {
     
        @Published var hedefKilon: Int = 50
        @Published var hdefHaftan: Int = 4
-       
-       
+    
+    @Published var kayitDurumuMesaji: String?
+    @Published var showAlert = false
+    private let repository = CoreDataRepository<UserProfile>() // Generic Repo
+
+    func verileriKaydet() {
+        let context = CoreDataManager.shared.viewContext
         
+        // Önce var olan kaydı ara (örneğin ilk kullanıcıyı al)
+        let fetchRequest: NSFetchRequest<UserProfile> = UserProfile.fetchRequest()
+        
+        do {
+            let existingProfiles = try context.fetch(fetchRequest)
+            
+            let userProfile: UserProfile
+            if let existing = existingProfiles.first {
+                // Mevcut kullanıcı varsa onu güncelle
+                userProfile = existing
+            } else {
+                // Yoksa yeni oluştur
+                userProfile = UserProfile(context: context)
+            }
+            
+            userProfile.gender = selectedGender
+            userProfile.birthYear = Int32(selectedYear)
+            userProfile.height = Int32(selectedHeight)
+            userProfile.weight = Int32(selectedWeight)
+            
+            let result = CoreDataManager.shared.saveContext(context)
+            
+            switch result {
+            case .success:
+                kayitDurumuMesaji = "Veri başarıyla kaydedildi."
+                showAlert = true
+            case .failure(let error):
+                kayitDurumuMesaji = "Veri kaydedilirken hata oluştu: \(error.localizedDescription)"
+                showAlert = true
+            }
+        } catch {
+            kayitDurumuMesaji = "Kayıt aranırken hata oluştu: \(error.localizedDescription)"
+            showAlert = true
+        }
+    }
+
+    
+     
     
     func gunlukKaloriIhtiyaci() -> Int {
            // 1. Yaş Hesaplama
