@@ -24,44 +24,45 @@ class InputViewModel : ObservableObject {
     private let repository = CoreDataRepository<UserProfile>() // Generic Repo
 
     func verileriKaydet() {
-        let context = CoreDataManager.shared.viewContext
-        
-        // Önce var olan kaydı ara (örneğin ilk kullanıcıyı al)
-        let fetchRequest: NSFetchRequest<UserProfile> = UserProfile.fetchRequest()
-        
-        do {
-            let existingProfiles = try context.fetch(fetchRequest)
-            
-            let userProfile: UserProfile
-            if let existing = existingProfiles.first {
-                // Mevcut kullanıcı varsa onu güncelle
-                userProfile = existing
-            } else {
-                // Yoksa yeni oluştur
-                userProfile = UserProfile(context: context)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let context = CoreDataManager.shared.viewContext
+            let fetchRequest: NSFetchRequest<UserProfile> = UserProfile.fetchRequest()
+
+            do {
+                let existingProfiles = try context.fetch(fetchRequest)
+
+                let userProfile: UserProfile
+                if let existing = existingProfiles.first {
+                    userProfile = existing
+                } else {
+                    userProfile = UserProfile(context: context)
+                }
+
+                userProfile.gender = self.selectedGender
+                userProfile.birthYear = Int32(self.selectedYear)
+                userProfile.height = Int32(self.selectedHeight)
+                userProfile.weight = Int32(self.selectedWeight)
+
+                let result = CoreDataManager.shared.saveContext(context)
+
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        self.kayitDurumuMesaji = "Veri başarıyla kaydedildi."
+                        self.showAlert = true
+                    case .failure(let error):
+                        self.kayitDurumuMesaji = "Veri kaydedilirken hata oluştu: \(error.localizedDescription)"
+                        self.showAlert = true
+                    }
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.kayitDurumuMesaji = "Kayıt aranırken hata oluştu: \(error.localizedDescription)"
+                    self.showAlert = true
+                }
             }
-            
-            userProfile.gender = selectedGender
-            userProfile.birthYear = Int32(selectedYear)
-            userProfile.height = Int32(selectedHeight)
-            userProfile.weight = Int32(selectedWeight)
-            
-            let result = CoreDataManager.shared.saveContext(context)
-            
-            switch result {
-            case .success:
-                kayitDurumuMesaji = "Veri başarıyla kaydedildi."
-                showAlert = true
-            case .failure(let error):
-                kayitDurumuMesaji = "Veri kaydedilirken hata oluştu: \(error.localizedDescription)"
-                showAlert = true
-            }
-        } catch {
-            kayitDurumuMesaji = "Kayıt aranırken hata oluştu: \(error.localizedDescription)"
-            showAlert = true
         }
     }
-
     
      
     

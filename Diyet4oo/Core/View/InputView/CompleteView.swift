@@ -22,8 +22,10 @@ struct CompleteView: View {
                 Text(String(ViewModel.selectedWeight))
                 Text(String(gunlukKalori))
                 
-                Button("action: ") {
-                    ViewModel.verileriKaydet()
+                Button("Verileri Kaydet ve Kaloriyi Hesapla") {
+                   
+                        ViewModel.verileriKaydet()
+                    
                 }
                 NavigationButton(destination: UserProfileListView())
             }.alert(isPresented: $ViewModel.showAlert) {
