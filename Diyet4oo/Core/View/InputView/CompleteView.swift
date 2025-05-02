@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CompleteView: View {
     @EnvironmentObject var ViewModel: InputViewModel
-   
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         let gunlukKalori = ViewModel.gunlukKaloriIhtiyaci()
         NavigationView {
@@ -23,15 +24,13 @@ struct CompleteView: View {
                 Text(String(gunlukKalori))
                 
                 Button("Verileri Kaydet ve Kaloriyi Hesapla") {
-                   
-                        ViewModel.verileriKaydet()
-                    
+                    print("asdnjksalmk")
                 }
                 NavigationButton(destination: UserProfileListView())
             }.alert(isPresented: $ViewModel.showAlert) {
                 Alert(title: Text("Bilgi"), message: Text(ViewModel.kayitDurumuMesaji ?? ""), dismissButton: .default(Text("Tamam")))
             }
-        }
+        }.toolbar { BackToolbarItem(dismiss: dismiss) }
         
 
     }

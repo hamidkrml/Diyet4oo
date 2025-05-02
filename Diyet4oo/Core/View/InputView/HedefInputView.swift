@@ -35,6 +35,11 @@ struct HedefInputView: View {
                      
                      Spacer()
                      NavigationButton(destination: CompleteView()   .environmentObject(ViewModel))
+                     
+                     //yeni button eklenecek veri tabanina kayit icin 
+//                     DispatchQueue.global(qos: .userInitiated).async {
+//                         ViewModel.verileriKaydet()
+//                     }
                          .padding(.bottom)
                  }
                  .toolbar { BackToolbarItem(dismiss: dismiss) }
