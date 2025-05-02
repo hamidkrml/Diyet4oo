@@ -19,6 +19,7 @@ struct UserProfileListView: View {
                     Text("Kilo: \(profile.weight) kg")
                     Text("Hedef Kilo: \(profile.targetWeight) kg")
                     Text("Hedef Hafta: \(profile.targetWeeks)")
+                    Text("Hedef Hafta: \(profile.dailyCalories)")
                 }
             }
             .navigationTitle("Kayıtlı Profiller")

@@ -13,3 +13,8 @@ import CoreData
  class UserProfile: NSManagedObject {
 
 }
+
+@objc(DailyIntake)
+ class DailyIntake: NSManagedObject {
+
+}

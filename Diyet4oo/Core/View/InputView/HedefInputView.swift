@@ -34,9 +34,16 @@ struct HedefInputView: View {
                      .position(x: geometry.size.width / 2, y: geometry.size.height / 4)
                      
                      Spacer()
-                     NavigationButton(destination: CompleteView()   .environmentObject(ViewModel))
+                     NavigationButton(destination: CompleteView()   .environmentObject(ViewModel)
                      
-                     //yeni button eklenecek veri tabanina kayit icin 
+                     )
+                     
+                     Button{
+                         
+                     }label: {
+                         
+                     }
+                     //yeni button eklenecek veri tabanina kayit icin
 //                     DispatchQueue.global(qos: .userInitiated).async {
 //                         ViewModel.verileriKaydet()
 //                     }

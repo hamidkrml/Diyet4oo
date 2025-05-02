@@ -27,8 +27,6 @@ struct CompleteView: View {
                     print("asdnjksalmk")
                 }
                 NavigationButton(destination: UserProfileListView())
-            }.alert(isPresented: $ViewModel.showAlert) {
-                Alert(title: Text("Bilgi"), message: Text(ViewModel.kayitDurumuMesaji ?? ""), dismissButton: .default(Text("Tamam")))
             }
         }.toolbar { BackToolbarItem(dismiss: dismiss) }
         

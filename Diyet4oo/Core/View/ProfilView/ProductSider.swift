@@ -9,9 +9,15 @@ import SwiftUI
 
 
 struct productSider:View{
-    @State private var current = 60.0
+    @State private var current = 10.0
     @State private var minValue = 0.0
-    @State private var maxValue = 100.0
+    @State private var maxValue = 200.0
+    
+    
+    @FetchRequest(
+        entity: UserProfile.entity(),
+        sortDescriptors: []
+    ) var profiles: FetchedResults<UserProfile>
     var body: some View{
         VStack(spacing: 20){
             
@@ -70,4 +76,7 @@ struct productSider:View{
         .modifier(CardModifier())
         
     }
+}
+#Preview {
+    productSider()
 }
