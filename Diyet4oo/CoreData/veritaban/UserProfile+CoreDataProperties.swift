@@ -26,7 +26,7 @@ extension UserProfile {
     @NSManaged public var targetWeight: Int32
     @NSManaged public var targetWeeks: Int32
     @NSManaged public var createdAt: Date?
-    @NSManaged public var dailyCalories: Int32
+    
 }
 
 extension UserProfile : Identifiable {

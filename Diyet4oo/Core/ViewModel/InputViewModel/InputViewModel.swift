@@ -20,7 +20,7 @@ class InputViewModel : ObservableObject {
     @Published var hdefHaftan: Int = 4
  
     // sonu kalori
-    @Published var hesaplananKalori: Int = 0
+    
     
     
     
@@ -33,7 +33,7 @@ class InputViewModel : ObservableObject {
         
         setupAutoSave()
     }
-    
+    // MARK: - genel o veri tabanlarin belirli bir zamandan sonra dinlenip core data kayit eden sure 
     private func setupAutoSave() {
         // 8 yayını birleştirmek için iç içe CombineLatest kullanımı
         Publishers.CombineLatest(
@@ -53,11 +53,16 @@ class InputViewModel : ObservableObject {
         .debounce(for: .seconds(20.0), scheduler: RunLoop.main)
         .sink { [weak self] _ in
             self?.verileriKaydet()
-            
+            self?.hedefKalori()
         }
         .store(in: &cancellables)
     }
     
+    
+    
+    // MARK: - "CoreData" - Kullancidan alinan bilgilerin veritabanina kayyit olmasi
+    
+    // kullancinin ozel bilgileri boy ceki hedefkilo falan hepsi burdan kayit oluyor coredataya
     func verileriKaydet() {
         let context = CoreDataManager.shared.backgroundContext()
         let repository = CoreDataRepository<UserProfile>(context: context)
@@ -85,6 +90,8 @@ class InputViewModel : ObservableObject {
         }
     }
     
+    
+    // kullancinin gunluk tuketmesi gerek degerin core data Kayit
     func hedefKalori(){
         let context = CoreDataManager.shared.backgroundContext()
         let repository = CoreDataRepository<DailyIntake>(context: context)
@@ -100,9 +107,12 @@ class InputViewModel : ObservableObject {
             }
             
             dailyIntake.dailyCalories = Int32(self.gunlukKaloriIhtiyaci())
+            repository.save()
         }
     }
     
+    
+    // MARK: - kullancinin tuketmesi gereken kcal hesaplayan fonksiyonu
     func gunlukKaloriIhtiyaci() -> Int {
         // 1. Doğum tarihi oluşturma (guard ile güvenli unwrap)
         guard let monthIndex = DateFormatter().monthSymbols.firstIndex(of: selectedMonth),
