@@ -7,8 +7,6 @@
 
 import CoreData
 
-import SwiftUI
-
 class CoreDataManager {
     static let shared = CoreDataManager()
     private init() {}

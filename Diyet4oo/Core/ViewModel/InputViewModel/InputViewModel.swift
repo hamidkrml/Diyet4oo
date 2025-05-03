@@ -33,7 +33,7 @@ class InputViewModel : ObservableObject {
         
         setupAutoSave()
     }
-    // MARK: - genel o veri tabanlarin belirli bir zamandan sonra dinlenip core data kayit eden sure 
+    // MARK: - genel o veri tabanlarin belirli bir zamandan sonra dinlenip core data kayit eden sure
     private func setupAutoSave() {
         // 8 yayını birleştirmek için iç içe CombineLatest kullanımı
         Publishers.CombineLatest(
@@ -50,10 +50,15 @@ class InputViewModel : ObservableObject {
                 $hdefHaftan
             )
         )
-        .debounce(for: .seconds(20.0), scheduler: RunLoop.main)
+        .debounce(for: .seconds(6.0), scheduler: RunLoop.main)
         .sink { [weak self] _ in
-            self?.verileriKaydet()
+            // hedefKalori fonksiyonu hemen çağrılır
             self?.hedefKalori()
+            
+            // verileriKaydet fonksiyonu 2 saniye gecikmeli çağrılır
+            DispatchQueue.main.asyncAfter(deadline: .now() + 40.0) {
+                self?.verileriKaydet()
+            }
         }
         .store(in: &cancellables)
     }
