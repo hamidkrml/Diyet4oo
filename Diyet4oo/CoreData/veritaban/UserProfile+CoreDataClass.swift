@@ -18,3 +18,8 @@ import CoreData
  class DailyIntake: NSManagedObject {
 
 }
+
+@objc(Food)
+ class Food: NSManagedObject {
+
+}

@@ -64,3 +64,28 @@ extension DailyIntake {
 extension DailyIntake : Identifiable {
 
 }
+
+
+
+
+extension Food {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Food> {
+        return NSFetchRequest<Food>(entityName: "Food")
+    }
+
+   
+    @NSManaged public var name: String?          // Malzeme Adı
+    @NSManaged public var portion: Double        // Porsiyon (g)
+    @NSManaged public var energy: Int16          // Enerji (kcal)
+    @NSManaged public var fat: Double            // Yağ (g)
+    @NSManaged public var carb: Double           // Karbonhidrat (g)
+    @NSManaged public var protein: Double        // Protein (g)
+    @NSManaged public var sugar: Double          // Şeker (g)
+    @NSManaged public var fiber: Double          // Fiber (g)
+    
+}
+
+extension Food : Identifiable {
+
+}
