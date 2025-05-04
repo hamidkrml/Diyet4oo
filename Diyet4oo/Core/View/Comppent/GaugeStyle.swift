@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct CustomGaugeStyle: GaugeStyle {
+    var maxValue: Double
     func makeBody(configuration: Configuration) -> some View {
         VStack {
             
@@ -19,8 +20,7 @@ struct CustomGaugeStyle: GaugeStyle {
                     .stroke(Color.blue, lineWidth: 8)
                     .rotationEffect(.degrees(-90))
                 
-                Text("\(Int(configuration.value * 100)) ")
-                    .font(.title2)
+                Text("\(Int(max(0, maxValue - (configuration.value * maxValue)))) kcal ")                    .font(.title2)
                     .bold()
                 +
                 Text("Kalan")

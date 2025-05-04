@@ -9,15 +9,26 @@ import SwiftUI
 
 
 struct productSider:View{
-    @State private var current = 10.0
+    @State private var current = 0.0
     @State private var minValue = 0.0
-    @State private var maxValue = 200.0
     
     
     @FetchRequest(
-        entity: UserProfile.entity(),
+        entity: DailyIntake.entity(),
         sortDescriptors: []
-    ) var profiles: FetchedResults<UserProfile>
+    ) var profiles: FetchedResults<DailyIntake>
+    
+    
+    var hedefKalori: Double {
+        Double(profiles.first?.dailyCalories ?? 2000) // örnek değer
+    }
+
+    
+    
+    // kullancidan gelen veri tabaninan secen current baglanacak yani hangi oggunu sectiyse onu kcal
+    var kalanKalori: Double {
+        Double(min(current, hedefKalori - current))
+    }
     var body: some View{
         VStack(spacing: 20){
             
@@ -31,7 +42,7 @@ struct productSider:View{
                     Text("Alinan")
                 }
                 Spacer()
-                Gauge(value: current, in: minValue...maxValue) {
+                Gauge(value: kalanKalori, in: minValue...hedefKalori) {
                     
                         
                 } currentValueLabel: {
@@ -39,9 +50,9 @@ struct productSider:View{
                 } minimumValueLabel: {
                     Text("\(Int(minValue))")
                 } maximumValueLabel: {
-                    Text("\(Int(maxValue))")
+                    Text("\(Int(hedefKalori))")
                 }
-                .gaugeStyle(CustomGaugeStyle())
+                .gaugeStyle(CustomGaugeStyle(maxValue: hedefKalori))
                 Spacer()
                 VStack{
                     Text("0")
