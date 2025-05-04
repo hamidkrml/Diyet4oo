@@ -81,8 +81,8 @@ extension Food {
     @NSManaged public var fat: Double            // Yağ (g)
     @NSManaged public var carb: Double           // Karbonhidrat (g)
     @NSManaged public var protein: Double        // Protein (g)
-    @NSManaged public var sugar: Double          // Şeker (g)
-    @NSManaged public var fiber: Double          // Fiber (g)
+    @NSManaged public var sugar: NSNumber?          // Şeker (g)
+    @NSManaged public var fiber: NSNumber?         // Fiber (g)
     
 }
 

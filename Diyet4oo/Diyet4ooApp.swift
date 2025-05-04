@@ -9,13 +9,19 @@ import SwiftUI
 
 @main
 struct Diyet4ooApp: App {
-    let Coredata = CoreDataManager.shared.viewContext
+    var coreData = CoreDataManager.shared
     @StateObject var viewModel = InputViewModel()
+    
     var body: some Scene {
         WindowGroup {
             Onboarding()
                 .environmentObject(viewModel)
-                .environment(\.managedObjectContext, Coredata)
+                .environment(\.managedObjectContext, coreData.persistentContainer.viewContext)
+                .onAppear{
+                    print("mkgfkmsd")
+                    coreData.initializeData()
+                }
+            
         }
     }
-}
+} 

@@ -30,6 +30,8 @@ class CoreDataManager {
             if let error = error {
                 
             }
+            
+            
         }
         // Main thread kısıtlaması (UI için güvenlik)
 
@@ -59,5 +61,11 @@ class CoreDataManager {
             return .failure(error)
         }
     }
+    
+    
+    func initializeData() {
+        CSVImporter.importCSVInBackground(named: "Food", container: persistentContainer)
+    }
+
 }
 

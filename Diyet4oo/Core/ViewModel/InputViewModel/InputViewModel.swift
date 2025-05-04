@@ -161,4 +161,9 @@ class InputViewModel : ObservableObject {
         let minimumKalori = gender == "Erkek" ? 1500.0 : 1200.0
         return Int(max(netKalori, minimumKalori))
     }
+    
+    
+    
+    
+    
 }

@@ -8,10 +8,10 @@
 import SwiftUI
 struct DogumYiliInputView: View {
     
-   
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var ViewModel: InputViewModel
-
+    @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
         NavigationStack {
@@ -31,11 +31,13 @@ struct DogumYiliInputView: View {
                     
                     NavigationButton(destination: BoyKiloInputView()
                         .environmentObject(ViewModel))
-                        .padding(.bottom)
+                    .padding(.bottom)
+                   
+                    
                 }
                 .toolbar { BackToolbarItem(dismiss: dismiss) }
             }
-        }
+        }    
     }
 }
 
@@ -52,7 +54,7 @@ private struct DatePickersView: View {
         DateFormatter().monthSymbols
     }
     
-   var days: [Int] {
+    var days: [Int] {
         let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: months.firstIndex(of: selectedMonth)! + 1))!
         return Array(1...Calendar.current.range(of: .day, in: .month, for: date)!.count)
     }
@@ -65,7 +67,7 @@ private struct DatePickersView: View {
         VStack {
             Text("Dogum Tarihiniz")
                 .font(.title2.bold())
-                
+            
             HStack(spacing: geometry.size.height * 0.08) {
                 WheelPicker(selection: $selectedDay, data: days, widthRatio: 0.18)
                 WheelPicker(selection: $selectedMonth, data: months, widthRatio: 0.35)
@@ -74,8 +76,8 @@ private struct DatePickersView: View {
             
         }
         .frame(height: geometry.size.height * 0.5)
-//        .padding(.top, geometry.size.height * 0.07)
-
+        //        .padding(.top, geometry.size.height * 0.07)
+        
     }
 }
 
@@ -98,7 +100,7 @@ private struct WheelPicker<T: Hashable>: View {
 }
 
 
- 
+
 #Preview{
     DogumYiliInputView()
 }

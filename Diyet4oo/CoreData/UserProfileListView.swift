@@ -3,9 +3,9 @@ import CoreData
 
 struct UserProfileListView: View {
     @FetchRequest(
-        entity: UserProfile.entity(),
-        sortDescriptors: []
-    ) var profiles: FetchedResults<UserProfile>
+           entity: Food.entity(),
+           sortDescriptors: []
+       ) var foods: FetchedResults<Food>
     
     
     @FetchRequest(
@@ -18,7 +18,7 @@ struct UserProfileListView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView {
-            List(profile) { profile1 in
+            List(foods, id: \.self) { food in
                 VStack(alignment: .leading, spacing: 5) {
 //                    Text("Cinsiyet: \(profile.gender ?? "Bilinmiyor")")
 //                    Text("Doğum Günü: \(profile.birthDay)")
@@ -29,7 +29,10 @@ struct UserProfileListView: View {
 //                    Text("Hedef Kilo: \(profile.targetWeight) kg")
 //                    Text("Hedef Hafta: \(profile.targetWeeks)")
                     
-                    Text("hesaplanan \(profile1.dailyCalories)")
+//                    Text("hesaplanan \(profile1.dailyCalories)")
+                    
+                    Text("yemegin ismileri:\(food.name ?? "hamit")")
+                    
                     
                 }
             }
