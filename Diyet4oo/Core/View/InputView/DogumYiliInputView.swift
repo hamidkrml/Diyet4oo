@@ -8,7 +8,12 @@
 import SwiftUI
 struct DogumYiliInputView: View {
     
+<<<<<<< HEAD
     
+=======
+    var coreData = CoreDataManager.shared
+
+>>>>>>> a44f889 (succses)
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var ViewModel: InputViewModel
     @Environment(\.managedObjectContext) private var viewContext
@@ -32,7 +37,14 @@ struct DogumYiliInputView: View {
                     NavigationButton(destination: BoyKiloInputView()
                         .environmentObject(ViewModel))
                     .padding(.bottom)
+<<<<<<< HEAD
                    
+=======
+                    .onAppear{
+                            print("mkgfkmsd")
+                            coreData.initializeData()
+                    }
+>>>>>>> a44f889 (succses)
                     
                 }
                 .toolbar { BackToolbarItem(dismiss: dismiss) }
