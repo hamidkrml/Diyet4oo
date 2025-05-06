@@ -10,21 +10,18 @@ import SwiftUI
 struct MainTabView: View {
     var body: some View {
         TabView {
-            GunlukView()
-                
+            ProfilView()
+            
                 .tabItem {
                     Label("Günlük", systemImage: "book.pages")
                 }
             
-//            ProfilView()
-//                .tabItem {
-//                    Label("Profil", systemImage: "person.fill")
-//                }
+            GunlukView()
+                .tabItem {
+                    Label("Profil", systemImage: "person.fill")
+                }
             
         }
+        
     }
-}
-
-#Preview {
-    MainTabView()
 }

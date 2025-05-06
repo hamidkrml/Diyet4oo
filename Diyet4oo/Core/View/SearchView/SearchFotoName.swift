@@ -30,8 +30,10 @@ struct Searchuserfotoname: View {
             }
             
             .font(.footnote)
+            
             Spacer()
         }
+        .frame(height: 80)
         .padding(.horizontal)
     }
 }

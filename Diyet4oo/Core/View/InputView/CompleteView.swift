@@ -26,7 +26,7 @@ struct CompleteView: View {
                 Button("Verileri Kaydet ve Kaloriyi Hesapla") {
                     print("asdnjksalmk")
                 }
-                NavigationButton(destination: UserProfileListView())
+                NavigationButton(destination: MainTabView())
             }
         }.toolbar { BackToolbarItem(dismiss: dismiss) }
         

@@ -8,7 +8,7 @@
 import SwiftUI
 struct ProfilView:View {
     var body: some View {
-       
+        
         NavigationView {
             ScrollView {
                 VStack{
@@ -16,14 +16,32 @@ struct ProfilView:View {
                     Divider()
                     productSider()
                     Divider()
-                    productCard(image: "icon", title: "Kahvalti")
+                    NavigationLink {
+                        SearchView()
+                    } label: {
+                        productCard(image: "icon", title: "Kahvalti")
+                    }
                     Divider()
-                    productCard(image: "icon", title: "Öğle Yemeği")
+                    NavigationLink {
+                        SearchView()
+                    } label: {
+                        productCard(image: "icon", title: "Öğle Yemeği")
+                    }
+                   
                     Divider()
+                    NavigationLink {
+                        SearchView()
+                    } label: {
+                        productCard(image: "icon", title: "Akşam Yemeği")
+                    }
                     
-                    productCard(image: "icon", title: "Akşam Yemeği")
                     Divider()
-                    productCard(image: "icon", title: "Ara Ögün")
+                    NavigationLink {
+                        SearchView()
+                    } label: {
+                        productCard(image: "icon", title: "Ara Ögün")
+                    }
+                   
                     Divider()
                     
                 }.padding(.horizontal)
@@ -33,7 +51,8 @@ struct ProfilView:View {
                         Button(action: {
                             print("Takvim butonuna tıklandı")
                         }) {
-                            calendarIconView()
+                            // buraya animasyonlu
+                            Image(systemName: "calendar.and.person")
                         }
                     }
                 }
@@ -49,16 +68,16 @@ struct ProfilView:View {
 
 
 
-
-///MARK:- Tabardaki button ozeligi
-@ViewBuilder
-func calendarIconView() -> some View {
-    if #available(iOS 18.0, *) {
-        Image(systemName: "calendar.and.person")
-            .symbolEffect(.breathe.pulse.wholeSymbol, options: .repeat(.continuous))
-            .foregroundStyle(Color("Text"))
-    } else {
-        Image(systemName: "calendar.and.person")
-    }
-    /// yeni tab button eklense buraya eklenecek 
-}
+//
+/////MARK:- Tabardaki button ozeligi
+//@ViewBuilder
+//func calendarIconView() -> some View {
+//    if #available(iOS 18.0, *) {
+//        Image(systemName: "calendar.and.person")
+//            .symbolEffect(.breathe.pulse.wholeSymbol, options: .repeat(.continuous))
+//            .foregroundStyle(Color("Text"))
+//    } else {
+//        Image(systemName: "calendar.and.person")
+//    }
+//    /// yeni tab button eklense buraya eklenecek
+//}
