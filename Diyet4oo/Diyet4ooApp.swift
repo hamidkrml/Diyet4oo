@@ -17,14 +17,7 @@ struct Diyet4ooApp: App {
             Onboarding()
                 .environmentObject(viewModel)
                 .environment(\.managedObjectContext, coreData.persistentContainer.viewContext)
-<<<<<<< HEAD
-                .onAppear{
-                    print("mkgfkmsd")
-                    coreData.initializeData()
-                }
-=======
-                
->>>>>>> a44f889 (succses)
+
             
         }
     }

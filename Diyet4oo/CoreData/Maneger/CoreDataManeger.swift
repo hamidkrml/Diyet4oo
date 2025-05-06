@@ -34,11 +34,11 @@ class CoreDataManager {
             
         }
         // Main thread kısıtlaması (UI için güvenlik)
-<<<<<<< HEAD
 
-=======
+
+
         
->>>>>>> a44f889 (succses)
+
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.shouldDeleteInaccessibleFaults = true
@@ -68,17 +68,13 @@ class CoreDataManager {
     
     
     func initializeData() {
-<<<<<<< HEAD
-        CSVImporter.importCSVInBackground(named: "Food", container: persistentContainer)
-    }
 
-=======
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             CSVImporter.importCSVInBackground(named: "Food", container: persistentContainer)
         }
         
     }
     
->>>>>>> a44f889 (succses)
+
 }
 
