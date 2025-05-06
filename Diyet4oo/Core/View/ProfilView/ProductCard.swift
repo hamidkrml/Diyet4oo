@@ -13,48 +13,52 @@ struct productCard: View {
     
     var body: some View {
         
-        VStack{
-            HStack{
+        HStack{
+            VStack{
                 
                 HStack {
                     Image(image)
                         .resizable()
                         .clipShape(Circle())
-                        .frame(width: 70,height: 70)
+                        .frame(width: 40,height: 40)
                     Spacer()
                     Text(title)
                         .font(.footnote)
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
                     
-                        .padding()
+                    
+                    
+                }
+                
+                HStack {
+                    
+                    Text("Önerilen Kcal")
+                    
+                    
+                    
+                    
                     Spacer()
                 }
+                
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .foregroundColor(.gray.opacity(0.6))
+                
+                
+                
+            }
+            Spacer()
+            HStack{
                 Spacer()
                 Image(systemName:"plus")
                     .resizable()
-                    .frame(width: 30,height: 30)
+                    .frame(width: 15,height: 15)
+                    .foregroundColor(.gray.opacity(0.9))
                 
             }
-            .padding(.horizontal)
+            .padding(.trailing)
             
-            
-            VStack(spacing: 10) {
-                HStack{
-                    Text("Önerilen")
-                        .font(.callout)
-                    Spacer()
-                }
-                HStack{
-                    
-                    Text("8000 kcal")
-                        .font(.footnote)
-                    Spacer()
-                    
-                }
-                
-                
-            }
             
             
             

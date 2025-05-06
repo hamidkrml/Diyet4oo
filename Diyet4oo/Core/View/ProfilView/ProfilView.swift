@@ -65,14 +65,6 @@ struct ProfilView:View {
     }
 }
 
-#Preview{
-    ProfilView()
-}
-
-
-
-
-//
 /////MARK:- Tabardaki button ozeligi
 //@ViewBuilder
 //func calendarIconView() -> some View {
