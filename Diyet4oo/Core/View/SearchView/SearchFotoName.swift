@@ -7,31 +7,32 @@
 import SwiftUI
 
 struct Searchuserfotoname: View {
-    let userfoto : String
-    let username:String
-    let useryorumu:String
+ 
+    let food: Food
+
     var body: some View {
         HStack{
-            Image(systemName:userfoto)
+            Image(systemName: "swift")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
             
-            Spacer()
+          
             VStack(alignment: .leading){
-                Text(username)
+                Text(food.name ?? "cvbn")
                     .fontWeight(.semibold)
                     .foregroundStyle(Color("ButtonC"))
                 
-                Text(useryorumu)
+                Text("\(Int(food.energy)) kcal")
                     .foregroundStyle(Color("ButtonC"))
                 
             }
             
             .font(.footnote)
-            
             Spacer()
+
+            
         }
         .frame(height: 80)
         .padding(.horizontal)
