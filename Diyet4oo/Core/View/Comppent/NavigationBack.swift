@@ -7,14 +7,13 @@
 
 import SwiftUI
 struct BackToolbarItem: ToolbarContent {
-   let dismiss: DismissAction
+    let dismiss: DismissAction
     
-   var body: some ToolbarContent {
-       ToolbarItem(placement: .topBarLeading) {
-           Image(systemName: "chevron.left")
-               
-               .imageScale(.large)
-               .onTapGesture(perform: dismiss.callAsFunction)
-       }
-   }
+    var body: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Image(systemName: "chevron.left")
+                .imageScale(.large)
+                .onTapGesture(perform: dismiss.callAsFunction)
+        }
+    }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CustomGaugeStyle: GaugeStyle {
     var maxValue: Double
+    var textgir : String
     func makeBody(configuration: Configuration) -> some View {
         VStack {
             
@@ -23,17 +24,20 @@ struct CustomGaugeStyle: GaugeStyle {
                     .trim(from: 0.0, to: CGFloat(configuration.value))
                     .stroke(Color.blue, lineWidth: 8)
                     .rotationEffect(.degrees(-90))
-                (
-                Text("\(Int(max(0, maxValue - (configuration.value * maxValue))))  ")                    .font(.title2)
-                    .bold()
-                    .foregroundColor(.black.opacity(0.7))
-                +
-                Text("KCAL kalan")
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.gray.opacity(0.6))
-                )
+                VStack(spacing: 2){
+                    Text("\(Int(max(0, maxValue - (configuration.value * maxValue))))  ")                    .font(.title2)
+                        .bold()
+                        .foregroundColor(.black.opacity(0.7))
+                    
+                    Text(textgir)
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray.opacity(0.6))
+                        
+                }
+                
             }
+            
             .frame(width: 100, height: 100)
             
             
