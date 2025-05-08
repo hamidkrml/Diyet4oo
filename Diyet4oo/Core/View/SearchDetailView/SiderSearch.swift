@@ -11,9 +11,12 @@ struct SiderSearch: View {
     @State private var current = 10.0
     @State private var minValue = 0.0
     @State private var maxValue = 100.0
+    
+    
+    var ici : String
     var body: some View {
         VStack{
-            Text("Kalori Takibi")
+            
 
             Gauge(value: current, in: minValue...maxValue) {
                 
@@ -25,12 +28,8 @@ struct SiderSearch: View {
             } maximumValueLabel: {
                 Text("\(Int(current))")
             }
-            .gaugeStyle(CustomGaugeStyle(maxValue: current, textgir: "\nKarbonHidrat"))
+            .gaugeStyle(CustomGaugeStyle(maxValue: current, textgir: ici))
             
         }
     }
-}
-
-#Preview {
-    SiderSearch()
 }

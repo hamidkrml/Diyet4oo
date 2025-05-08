@@ -24,21 +24,28 @@ struct CustomGaugeStyle: GaugeStyle {
                     .trim(from: 0.0, to: CGFloat(configuration.value))
                     .stroke(Color.blue, lineWidth: 8)
                     .rotationEffect(.degrees(-90))
-                VStack(spacing: 2){
+                VStack(spacing: 1){
                     Text("\(Int(max(0, maxValue - (configuration.value * maxValue))))  ")                    .font(.title2)
-                        .bold()
+                        .font(.title3)
+                        .fontWeight(.bold)
                         .foregroundColor(.black.opacity(0.7))
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                    
                     
                     Text(textgir)
-                        .font(.footnote)
+                        .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundColor(.gray.opacity(0.6))
-                        
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.5)
+                    
                 }
                 
             }
             
-            .frame(width: 100, height: 100)
+            .frame(width: 110,height: 120)
             
             
         }
