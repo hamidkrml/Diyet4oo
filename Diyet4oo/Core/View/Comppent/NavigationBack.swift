@@ -12,7 +12,7 @@ struct BackToolbarItem: ToolbarContent {
    var body: some ToolbarContent {
        ToolbarItem(placement: .topBarLeading) {
            Image(systemName: "chevron.left")
-               .foregroundColor(.black)
+               
                .imageScale(.large)
                .onTapGesture(perform: dismiss.callAsFunction)
        }

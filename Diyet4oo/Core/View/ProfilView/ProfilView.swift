@@ -11,11 +11,12 @@ struct ProfilView:View {
         
         NavigationView {
             ScrollView {
-                VStack{
+                VStack(spacing:20){
                     Spacer()
                     Divider()
                     productSider()
-                    Divider()
+                    
+                    Spacer()
                     NavigationLink {
                         SearchView()
                             .navigationBarBackButtonHidden()
@@ -23,6 +24,7 @@ struct ProfilView:View {
                         productCard(image: "icon", title: "Kahvalti")
                     }
                     Divider()
+                    
                     NavigationLink {
                         SearchView()
                             .navigationBarBackButtonHidden()
@@ -31,12 +33,14 @@ struct ProfilView:View {
                     }
                    
                     Divider()
+                    
                     NavigationLink {
                         SearchView()
                             .navigationBarBackButtonHidden()
                     } label: {
                         productCard(image: "icon", title: "Akşam Yemeği")
                     }
+                    
                     
                     Divider()
                     NavigationLink {
