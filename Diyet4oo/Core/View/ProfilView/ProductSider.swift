@@ -22,7 +22,7 @@ struct productSider:View{
     var hedefKalori: Double {
         Double(profiles.first?.dailyCalories ?? 2000) // örnek değer
     }
-
+    
     
     
     // kullancidan gelen veri tabaninan secen current baglanacak yani hangi oggunu sectiyse onu kcal
@@ -33,7 +33,7 @@ struct productSider:View{
         VStack(spacing: 20){
             
             Text("Kalori Takibi")
-         
+            
             
             HStack(spacing: 20){
                 Spacer()
@@ -44,7 +44,7 @@ struct productSider:View{
                 Spacer()
                 Gauge(value: kalanKalori, in: minValue...hedefKalori) {
                     
-                        
+                    
                 } currentValueLabel: {
                     Text("\(Int(current))")
                 } minimumValueLabel: {
@@ -79,13 +79,17 @@ struct productSider:View{
                     Text("0")
                 }
                 
-
+                
             }
             
         }
-        .background(Color.white.opacity(0.2))
-        .modifier(CardModifier())
         
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.gray.opacity(0.2))
+        )
+.modifier(CardModifier())
+        .padding(.vertical)
     }
 }
 #Preview {

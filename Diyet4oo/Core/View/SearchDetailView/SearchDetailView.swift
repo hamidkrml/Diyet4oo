@@ -27,9 +27,14 @@ struct SearchDetailView: View {
                     StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
                     StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.gray.opacity(0.5 ))
                     StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
+                    Divider()
                     
-
-
+                    PrimaryButton(title: "Yeni Ekle", icon: "dot.circle.and.hand.point.up.left.fill") {
+                        print("hesaplama burada yapilacak")
+                    }
+                    
+                    
+                    
                 }
             }.navigationTitle("Buraya kullanci sectigi yemegin adi gelecek ")
                 .navigationBarTitleDisplayMode(.inline)
@@ -81,12 +86,25 @@ struct StatCard: View {
                     .foregroundColor(Color("ButtonC"))
             }
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(color)
-                .shadow(radius: 5)
-        )
-        .padding(.horizontal)
+        .modifier(CardModifier1())
     }
 }
+
+
+
+
+
+
+struct CardModifier1: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.gray.opacity(0.2))
+                    .shadow(radius: 5)
+            )
+            .padding(.horizontal)
+    }
+}
+

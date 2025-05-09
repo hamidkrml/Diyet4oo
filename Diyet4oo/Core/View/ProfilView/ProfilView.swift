@@ -21,7 +21,7 @@ struct ProfilView:View {
                         SearchView()
                             .navigationBarBackButtonHidden()
                     } label: {
-                        productCard(image: "icon", title: "Kahvalti")
+                        productCard(image: "icon", title: "   Kahvalti")
                     }
                     Divider()
                     
@@ -29,16 +29,16 @@ struct ProfilView:View {
                         SearchView()
                             .navigationBarBackButtonHidden()
                     } label: {
-                        productCard(image: "icon", title: "Öğle Yemeği")
+                        productCard(image: "icon", title: "Öğle ")
                     }
-                   
+                    
                     Divider()
                     
                     NavigationLink {
                         SearchView()
                             .navigationBarBackButtonHidden()
                     } label: {
-                        productCard(image: "icon", title: "Akşam Yemeği")
+                        productCard(image: "icon", title: "Akşam ")
                     }
                     
                     
@@ -49,11 +49,12 @@ struct ProfilView:View {
                     } label: {
                         productCard(image: "icon", title: "Ara Ögün")
                     }
-                   
+                    
                     Divider()
                     
                 }.padding(.horizontal)
             }.navigationTitle("Bugun")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {

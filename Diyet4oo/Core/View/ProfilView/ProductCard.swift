@@ -48,7 +48,11 @@ struct productCard: View {
             .padding(.trailing)
         }
         .padding(.leading)
-        .background(Color.white.opacity(0.2))
-        .modifier(CardModifier())
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.gray.opacity(0.2))
+        )
+.modifier(CardModifier())
+        .padding(.vertical)
     }
 }
