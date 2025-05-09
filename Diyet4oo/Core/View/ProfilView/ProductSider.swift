@@ -52,7 +52,7 @@ struct productSider:View{
                 } maximumValueLabel: {
                     Text("\(Int(hedefKalori))")
                 }
-                .gaugeStyle(CustomGaugeStyle(maxValue: hedefKalori, textgir: "Kalan Kcal"))
+                .gaugeStyle(CustomGaugeStyle(maxValue: hedefKalori, textgir: "Kalan Kcal", strokeColor: Color.blue))
                 Spacer()
                 VStack{
                     Text("0")

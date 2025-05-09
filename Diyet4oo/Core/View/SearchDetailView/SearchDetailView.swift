@@ -15,18 +15,21 @@ struct SearchDetailView: View {
                 VStack(spacing: 20){
                     
                     HStack(spacing: 20){
-                        SiderSearch(ici: "KarbonHidrat")
-                        SiderSearch(ici: "Protein")
-                        SiderSearch(ici: "Yağ")
+                        SiderSearch(strokeColor: Color.blue, ici: "KarbonHidrat")
+                        SiderSearch(strokeColor: Color.red, ici: "Protein")
+                        SiderSearch(strokeColor: Color.green, ici: "Yağ")
                     }
                     
                     Text("Besin Degerleri 🔥")
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥")
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥")
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥")
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥")
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥")
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥")
+                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.gray.opacity(0.5 ))
+                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
+                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.gray.opacity(0.5 ))
+                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
+                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.gray.opacity(0.5 ))
+                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
+                    
+
+
                 }
             }.navigationTitle("Buraya kullanci sectigi yemegin adi gelecek ")
                 .navigationBarTitleDisplayMode(.inline)
@@ -47,7 +50,7 @@ struct StatCard: View {
     var value: String
     var unit: String
     var icon: String? = nil // opsiyonel emoji veya SF Symbol
-
+    var color : Color
     var body: some View {
         HStack {
             // Sol taraf: başlık ve açıklama
@@ -58,30 +61,30 @@ struct StatCard: View {
                     }
                     Text(title)
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color("ButtonC"))
                 }
                 Text(subtitle)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(Color("ButtonC"))
             }
-
+            
             Spacer()
-
+            
             // Sağ taraf: değer ve birim
             VStack(alignment: .trailing, spacing: 4) {
                 Text(value)
                     .font(.title2)
                     .bold()
-                    .foregroundColor(.white)
+                    .foregroundColor(Color("ButtonC"))
                 Text(unit)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(Color("ButtonC"))
             }
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color.blue)
+                .fill(color)
                 .shadow(radius: 5)
         )
         .padding(.horizontal)

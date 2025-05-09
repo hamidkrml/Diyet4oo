@@ -11,6 +11,7 @@ import SwiftUI
 struct CustomGaugeStyle: GaugeStyle {
     var maxValue: Double
     var textgir : String
+    var strokeColor: Color
     func makeBody(configuration: Configuration) -> some View {
         VStack {
             
@@ -22,13 +23,13 @@ struct CustomGaugeStyle: GaugeStyle {
                 
                 Circle()
                     .trim(from: 0.0, to: CGFloat(configuration.value))
-                    .stroke(Color.blue, lineWidth: 8)
+                    .stroke(strokeColor, lineWidth: 8)
                     .rotationEffect(.degrees(-90))
                 VStack(spacing: 1){
                     Text("\(Int(max(0, maxValue - (configuration.value * maxValue))))  ")                    .font(.title2)
                         .font(.title3)
                         .fontWeight(.bold)
-                        .foregroundColor(.black.opacity(0.7))
+                        .foregroundColor(Color("ButtonC"))
                         .minimumScaleFactor(0.7)
                         .lineLimit(1)
                     
@@ -36,7 +37,7 @@ struct CustomGaugeStyle: GaugeStyle {
                     Text(textgir)
                         .font(.caption)
                         .fontWeight(.semibold)
-                        .foregroundColor(.gray.opacity(0.6))
+                        .foregroundColor(Color("ButtonC"))
                         .multilineTextAlignment(.center)
                         .lineLimit(2)
                         .minimumScaleFactor(0.5)

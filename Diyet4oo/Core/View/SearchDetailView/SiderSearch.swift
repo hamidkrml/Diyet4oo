@@ -11,7 +11,8 @@ struct SiderSearch: View {
     @State private var current = 10.0
     @State private var minValue = 0.0
     @State private var maxValue = 100.0
-    
+    var strokeColor: Color  // <-- Yeni eklenen renk değişkeni
+
     
     var ici : String
     var body: some View {
@@ -28,8 +29,9 @@ struct SiderSearch: View {
             } maximumValueLabel: {
                 Text("\(Int(current))")
             }
-            .gaugeStyle(CustomGaugeStyle(maxValue: current, textgir: ici))
+            .gaugeStyle(CustomGaugeStyle(maxValue: current, textgir: ici, strokeColor: strokeColor))
             
         }
+        
     }
 }

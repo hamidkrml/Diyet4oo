@@ -27,26 +27,14 @@ struct productCard: View {
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
                     
-                    
-                    
                 }
-                
                 HStack {
-                    
                     Text("Önerilen Kcal")
-                    
-                    
-                    
-                    
                     Spacer()
                 }
-                
                 .font(.footnote)
                 .fontWeight(.semibold)
                 .foregroundColor(.gray.opacity(0.6))
-                
-                
-                
             }
             Spacer()
             HStack{
@@ -58,11 +46,6 @@ struct productCard: View {
                 
             }
             .padding(.trailing)
-            
-            
-            
-            
-            
         }
         .padding(.leading)
         .background(Color.white.opacity(0.2))
