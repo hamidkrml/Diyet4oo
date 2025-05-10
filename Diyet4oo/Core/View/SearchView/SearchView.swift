@@ -14,46 +14,59 @@ struct SearchView: View {
     @StateObject private var viewModel: SearchViewModel
     @Environment(\.dismiss) var dismiss
     @StateObject private var keyboard = KeyboardObserver()
-    
+   
     init() {
         _viewModel = StateObject(wrappedValue: SearchViewModel(context: CoreDataManager.shared.persistentContainer.viewContext))
+        
     }
     
     var body: some View {
-        
         NavigationView {
-            ScrollView {
-                LazyVStack {
-                    if viewModel.filtered.isEmpty {
-                        Text("Sonuç bulunamadı")
-                            .foregroundColor(.gray)
-                            .padding()
-                    } else {
-                        ForEach(viewModel.filtered, id: \.self) { food in
-                            NavigationLink(destination: SearchDetailView(food: food)) {
-                                Searchuserfotoname(food: food)
-                                    .padding(.vertical, 8)
+            VStack(spacing: 0) {
+                // 🔍 Sabit TextField
+                TextField("Yemek ara...", text: $viewModel.searchText1)
+                    .padding(10)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                    .padding([.horizontal, .top])
+
+                ScrollView {
+                    LazyVStack {
+                        if viewModel.filtered.isEmpty {
+                            Text("Sonuç bulunamadı")
+                                .foregroundColor(.gray)
+                                .padding()
+                        } else {
+                            ForEach(viewModel.filtered, id: \.self) { food in
+                                NavigationLink(destination: SearchDetailView(food: food)) {
+                                    Searchuserfotoname(food: food)
+                                        .padding(.vertical, 8)
+                                }
                             }
                         }
-                        // Performans için sabit padding
-                        
                     }
-                }
-                .animation(keyboard.isKeyboardVisible ? nil : .default, value: viewModel.filtered)
-                .animation(keyboard.isKeyboardVisible ? nil : .default, value: viewModel.searchText)
-
-                .navigationTitle("Yemekler")
-                .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $viewModel.searchText, prompt: "Yemek ara...") // Doğru pozisyon
-                .toolbar {
-                    BackToolbarItem(dismiss: dismiss)
+                    .animation(keyboard.isKeyboardVisible ? nil : .default, value: viewModel.filtered)
+                    .padding(.horizontal)
                 }
             }
-            .navigationViewStyle(.stack) // Kritik iOS 15+ düzeltme
+            .navigationTitle("Yemekler")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                BackToolbarItem(dismiss: dismiss)
+            }
             .background(
                 Color(.systemBackground)
                     .ignoresSafeArea()
             )
+        }
+        .navigationViewStyle(.stack)
+    }
+}
+
+extension View {
+    func withoutAnimation() -> some View {
+        withAnimation(nil) {
+            self
         }
     }
 }

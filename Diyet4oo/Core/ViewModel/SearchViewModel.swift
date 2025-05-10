@@ -9,47 +9,28 @@ import Combine
 import SwiftUI
 
 /// ViewModel sınıfı, Core Data'dan `Food` entity'sini çekip arama metnine göre filtreleme yapar.
-class SearchViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+class SearchViewModel: NSObject, ObservableObject {
     // MARK: - Constants
     private let fetchLimit: Int = 20
 
     // MARK: - Published Properties
-    @Published var searchText: String = ""
+    @Published var searchText1: String = ""
     @Published var filtered: [Food] = []
 
     // MARK: - Private Properties
     private let context: NSManagedObjectContext
     private var cancellables = Set<AnyCancellable>()
-    private var fetchedResultsController: NSFetchedResultsController<Food>
 
     // MARK: - Initialization
     init(context: NSManagedObjectContext) {
         self.context = context
-
-        // 1. Fetch Request
-        let fetchRequest: NSFetchRequest<Food> = Food.fetchRequest()
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "name", ascending: true)
-        ]
-        fetchRequest.fetchLimit = fetchLimit
-        fetchRequest.fetchBatchSize = fetchLimit
-
-        // 2. FetchedResultsController setup
-        fetchedResultsController = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: context,
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-
         super.init()
-        fetchedResultsController.delegate = self
 
-        // 3. Initial fetch
-        performFetchAndPublish()
+        // İlk veri yüklemesi (arama kutusu boşken)
+        filterContent(for: "")
 
-        // 4. Combine pipeline for search text
-        $searchText
+        // Arama metni değişimlerini takip et
+        $searchText1
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
             .removeDuplicates()
             .sink { [weak self] text in
@@ -59,43 +40,27 @@ class SearchViewModel: NSObject, ObservableObject, NSFetchedResultsControllerDel
     }
 
     // MARK: - Fetch & Filter
-    private func filterContent(for searchText: String) {
-        // Predicate
-        if searchText.isEmpty {
-            fetchedResultsController.fetchRequest.predicate = nil
-            fetchedResultsController.fetchRequest.fetchLimit = fetchLimit
-        } else {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(
-                format: "name CONTAINS[cd] %@", searchText
-            )
-            fetchedResultsController.fetchRequest.fetchLimit = 0 // unlimited
-        }
-        performFetchAndPublish()
-    }
+    private func filterContent(for text: String) {
+        let request: NSFetchRequest<Food> = Food.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        request.fetchLimit = text.isEmpty ? fetchLimit : 0
 
-    private func performFetchAndPublish() {
-        DispatchQueue.global(qos: .userInitiated).async{
+        if !text.isEmpty {
+            request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", text)
+        }
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result: [Food]
             do {
-                try self.fetchedResultsController.performFetch()
-                let results = self.fetchedResultsController.fetchedObjects ?? []
-                DispatchQueue.main.async {
-                    withAnimation {
-                        self.filtered = results
-                    }
-                }
+                result = try self.context.fetch(request)
             } catch {
-                print("Core Data fetch error: \(error.localizedDescription)")
+                print("Fetch error: \(error.localizedDescription)")
+                return
             }
-        }
-    }
 
-    // MARK: - NSFetchedResultsControllerDelegate
-    func controllerDidChangeContent(
-        _ controller: NSFetchedResultsController<NSFetchRequestResult>
-    ) {
-        // Eğer Core Data'da dışarıdan değişiklikler olursa
-        DispatchQueue.main.async {
-            self.filtered = (controller.fetchedObjects as? [Food]) ?? []
+            DispatchQueue.main.async {
+                self.filtered = result
+            }
         }
     }
 }
