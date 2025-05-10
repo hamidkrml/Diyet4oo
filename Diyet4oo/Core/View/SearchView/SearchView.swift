@@ -13,6 +13,7 @@ struct SearchView: View {
     @Environment(\.managedObjectContext) private var context
     @StateObject private var viewModel: SearchViewModel
     @Environment(\.dismiss) var dismiss
+    @StateObject private var keyboard = KeyboardObserver()
     
     init() {
         _viewModel = StateObject(wrappedValue: SearchViewModel(context: CoreDataManager.shared.persistentContainer.viewContext))
@@ -29,16 +30,21 @@ struct SearchView: View {
                             .padding()
                     } else {
                         ForEach(viewModel.filtered, id: \.self) { food in
-                            Searchuserfotoname(food: food)
-                                .padding(.vertical, 8)
+                            NavigationLink(destination: SearchDetailView(food: food)) {
+                                Searchuserfotoname(food: food)
+                                    .padding(.vertical, 8)
+                            }
                         }
                         // Performans için sabit padding
                         
                     }
                 }
+                .animation(keyboard.isKeyboardVisible ? nil : .default, value: viewModel.filtered)
+                .animation(keyboard.isKeyboardVisible ? nil : .default, value: viewModel.searchText)
+
                 .navigationTitle("Yemekler")
                 .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $viewModel.seachText, prompt: "Yemek ara...") // Doğru pozisyon
+                .searchable(text: $viewModel.searchText, prompt: "Yemek ara...") // Doğru pozisyon
                 .toolbar {
                     BackToolbarItem(dismiss: dismiss)
                 }

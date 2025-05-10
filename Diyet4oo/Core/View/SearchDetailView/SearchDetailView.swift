@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchDetailView: View {
-    
+    let food: Food
     var body: some View {
         NavigationView {
             ScrollView {
@@ -20,13 +20,22 @@ struct SearchDetailView: View {
                         SiderSearch(strokeColor: Color.green, ici: "Yağ")
                     }
                     
-                    Text("Besin Degerleri 🔥")
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.gray.opacity(0.5 ))
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.gray.opacity(0.5 ))
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.gray.opacity(0.5 ))
-                    StatCard(title: "Kalori", subtitle: "Yakılan", value: "150", unit: "kcal", icon: "🔥", color: Color.white.opacity(0.1))
+                    Text("\(food.name ?? "denen gelmedi" )")
+                    StatCard(title: "Porsiyon", value: "\(food.portion)", unit: "adet", icon: "🍽️", color: Color.gray.opacity(0.5 ))
+                    StatCard(title: "Karbonhidrat", value: "\(food.carb)", unit: "g", icon: "🍞", color: Color.blue.opacity(0.1))
+                  
+                    
+                    StatCard(title: "Yağ", value: "\(food.fat)", unit: "g", icon: "🥑", color: Color.orange.opacity(0.2))
+                  
+                    StatCard(title: "Lif", value: "\(food.fiber ?? 0)", unit: "g", icon: "🌿", color: Color.green.opacity(0.2))
+                    
+                    
+                    StatCard(title: "Şeker", value: "\(food.sugar ?? 0)", unit: "g", icon: "🍬", color: Color.pink.opacity(0.2))
+                    
+                    
+                    StatCard(title: "Protein", value: "\(food.protein)", unit: "g", icon: "💪", color: Color.red.opacity(0.2))
+                    
+                    StatCard(title: "Enerji", value: "\(food.energy)", unit: "kcal", icon: "⚡️", color: Color.yellow.opacity(0.2))
                     Divider()
                     
                     PrimaryButton(title: "Yeni Ekle", icon: "dot.circle.and.hand.point.up.left.fill") {
@@ -42,18 +51,18 @@ struct SearchDetailView: View {
         Spacer()
     }
 }
-
-#Preview {
-    SearchDetailView()
-}
+//
+//#Preview {
+//    SearchDetailView()
+//}
 
 
 
 struct StatCard: View {
     var title: String
-    var subtitle: String
+    var subtitle: String? = nil
     var value: String
-    var unit: String
+    var unit: String? = nil
     var icon: String? = nil // opsiyonel emoji veya SF Symbol
     var color : Color
     var body: some View {
@@ -68,9 +77,11 @@ struct StatCard: View {
                         .font(.headline)
                         .foregroundColor(Color("ButtonC"))
                 }
-                Text(subtitle)
-                    .font(.caption)
-                    .foregroundColor(Color("ButtonC"))
+                if let subtitle = subtitle {
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundColor(Color("ButtonC"))
+                }
             }
             
             Spacer()
@@ -81,9 +92,11 @@ struct StatCard: View {
                     .font(.title2)
                     .bold()
                     .foregroundColor(Color("ButtonC"))
-                Text(unit)
-                    .font(.caption)
-                    .foregroundColor(Color("ButtonC"))
+                if let unit = unit {
+                    Text(unit)
+                        .font(.caption)
+                        .foregroundColor(Color("ButtonC"))
+                }
             }
         }
         .modifier(CardModifier1())
@@ -107,4 +120,3 @@ struct CardModifier1: ViewModifier {
             .padding(.horizontal)
     }
 }
-
