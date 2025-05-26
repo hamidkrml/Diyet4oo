@@ -18,7 +18,7 @@ struct ProfilView: View {
                     Divider()
                     
                     // Daily calorie tracking section
-                    productSider()
+                    ProductSider()
                     
                     Spacer()
                     
@@ -64,7 +64,7 @@ struct ProfilView: View {
             SearchView()
                 .navigationBarBackButtonHidden()
         } label: {
-            productCard(image: image, title: title)
+            ProductCard(image: image, title: title)
         }
     }
 }
