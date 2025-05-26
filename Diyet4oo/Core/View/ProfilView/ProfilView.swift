@@ -6,70 +6,70 @@
 //
 
 import SwiftUI
-struct ProfilView:View {
+
+/// Main profile view that displays daily meal tracking and navigation
+struct ProfilView: View {
+    // MARK: - Body
     var body: some View {
-        
         NavigationView {
             ScrollView {
-                VStack(spacing:20){
+                VStack(spacing: 20) {
                     Spacer()
                     Divider()
+                    
+                    // Daily calorie tracking section
                     productSider()
                     
                     Spacer()
-                    NavigationLink {
-                        SearchView()
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        productCard(image: "icon", title: "   Kahvalti")
-                    }
+                    
+                    // Meal navigation sections
+                    mealNavigationSection(title: "Kahvaltı", image: "icon")
                     Divider()
                     
-                    NavigationLink {
-                        SearchView()
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        productCard(image: "icon", title: "Öğle ")
-                    }
-                    
+                    mealNavigationSection(title: "Öğle", image: "icon")
                     Divider()
                     
-                    NavigationLink {
-                        SearchView()
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        productCard(image: "icon", title: "Akşam ")
-                    }
-                    
-                    
-                    Divider()
-                    NavigationLink {
-                        SearchView()
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        productCard(image: "icon", title: "Ara Ögün")
-                    }
-                    
+                    mealNavigationSection(title: "Akşam", image: "icon")
                     Divider()
                     
-                }.padding(.horizontal)
-            }.navigationTitle("Bugun")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: {
-                            print("Takvim butonuna tıklandı")
-                        }) {
-                            // buraya animasyonlu
-                            Image(systemName: "calendar.and.person")
-                        }
-                    }
+                    mealNavigationSection(title: "Ara Öğün", image: "icon")
+                    Divider()
                 }
+                .padding(.horizontal)
+            }
+            .navigationTitle("Bugün")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    calendarButton
+                }
+            }
         }
-        
+    }
+    
+    // MARK: - UI Components
+    
+    /// Calendar button in the navigation bar
+    private var calendarButton: some View {
+        Button(action: {
+            print("Takvim butonuna tıklandı")
+        }) {
+            Image(systemName: "calendar.and.person")
+        }
+    }
+    
+    /// Creates a navigation section for a meal
+    private func mealNavigationSection(title: String, image: String) -> some View {
+        NavigationLink {
+            SearchView()
+                .navigationBarBackButtonHidden()
+        } label: {
+            productCard(image: image, title: title)
+        }
     }
 }
 
+// MARK: - Preview
 #Preview {
     ProfilView()
 }
