@@ -23,8 +23,8 @@ struct TextPickerComppent<T: Hashable & CustomStringConvertible>: View {
             .underline(true,color: .gray)
         
         Picker("Boyunuzu Giriniz", selection: $deger) {
-            ForEach(secenekler, id: \.self) { hamit in
-                Text("\(hamit)")
+            ForEach(secenekler, id: \.self) { boy in
+                Text("\(boy)")
             }
         }
     }

@@ -16,7 +16,7 @@ import SwiftUI
                 .navigationBarBackButtonHidden()
                 
         } label: {
-            Text("fghjkl")
+            ButtonCompenet(tiitle: "hamit")
         }
         .padding(.bottom)
     }

@@ -12,7 +12,7 @@ struct CinsiyetInputView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var ViewModel: InputViewModel
     var body: some View {
-        NavigationView {
+        NavigationStack{
             GeometryReader { geometry in
                 
                 VStack {
