@@ -9,77 +9,66 @@ import SwiftUI
 
 /// A card view that displays meal information and allows adding items
 struct ProductCard: View {
-    // MARK: - Properties
+    // MARK: - Özellikler
     let image: String
     let title: String
     
     // MARK: - Body
     var body: some View {
-        HStack {
-            // Left content
-            VStack {
-                headerContent
-                recommendedCaloriesText
+        HStack(alignment: .center) { // Dikey hizalamayı merkez yap
+            // Sol içerik (Resim ve yazılar)
+            HStack {
+                // Resim kısmı
+                Image(image)
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 40, height: 40)
+//                    .padding(.leading)
+                // Yazılar için dikey düzen
+               
+                VStack(alignment: .leading ,spacing: 4) {
+                    
+                    Text(title)
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray)
+                    Text("Önerilen Kcal")
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray.opacity(0.6))
+                }
+                .padding(.leading)
+                
+                
+                
             }
             
             Spacer()
-            
-            // Add button
             addButton
+            
+
+            // Ekleme butonu
+            
         }
-        .padding(.leading)
+        .padding(.horizontal) // Yatay padding ekle
+        .padding(.vertical, 10) // Dikey padding ayarla
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.gray.opacity(0.2))
         )
         .modifier(CardModifier())
-        .padding(.vertical)
     }
     
-    // MARK: - UI Components
-    
-    /// Header content with image and title
-    private var headerContent: some View {
-        HStack {
-            Image(image)
-                .resizable()
-                .clipShape(Circle())
-                .frame(width: 40, height: 40)
-            
-            Spacer()
-            
-            Text(title)
-                .font(.footnote)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-        }
-    }
-    
-    /// Recommended calories text
-    private var recommendedCaloriesText: some View {
-        HStack {
-            Text("Önerilen Kcal")
-            Spacer()
-        }
-        .font(.footnote)
-        .fontWeight(.semibold)
-        .foregroundColor(.gray.opacity(0.6))
-    }
-    
-    /// Add button
+    // MARK: - UI Bileşenleri
     private var addButton: some View {
-        HStack {
-            Spacer()
-            Image(systemName: "plus")
-                .resizable()
-                .frame(width: 15, height: 15)
-                .foregroundColor(.gray.opacity(0.9))
-        }
-        .padding(.trailing)
+        Image(systemName: "plus")
+            .resizable()
+            .frame(width: 15, height: 15)
+            .foregroundColor(.gray.opacity(0.9))
     }
 }
 
-// MARK: - Preview
+// MARK: - Önizleme
 #Preview {
     ProductCard(image: "icon", title: "Örnek Öğün")
 }

@@ -19,30 +19,30 @@ struct ProductSider: View {
     ) var profiles: FetchedResults<DailyIntake>
     
     // MARK: - Computed Properties
-    
-    /// Target calories from user profile or default value
     var hedefKalori: Double {
         Double(profiles.first?.dailyCalories ?? 2000)
     }
     
-    /// Remaining calories calculation
     var kalanKalori: Double {
-        Double(min(current, hedefKalori - current))
+        max(0, hedefKalori - current) // Negatif değerleri önlemek için
     }
     
     // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
             Text("Kalori Takibi")
+                .font(.headline)
+                .padding(.top)
             
-            // Calorie tracking section
+            // Kalori takip bölümü - TAM ORTALANMIŞ
             calorieTrackingSection
             
             Spacer()
             Divider()
             
-            // Nutrition information section
+            // Besin bilgileri bölümü - TAM ORTALANMIŞ
             nutritionInfoSection
+                .padding(.bottom)
         }
         .background(
             RoundedRectangle(cornerRadius: 12)
@@ -54,67 +54,90 @@ struct ProductSider: View {
     
     // MARK: - UI Components
     
-    /// Calorie tracking section with gauge
+    /// Kalori takip bölümü (gauge ile birlikte)
     private var calorieTrackingSection: some View {
-        HStack(spacing: 20) {
+        HStack {
             Spacer()
             
-            calorieInfoView(value: "0", label: "Alinan")
+            // Alınan kalori bilgisi
+            VStack {
+                Text("\(Int(current))")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Text("Alınan")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
             
             Spacer()
             
+            // Kalori gauge
             calorieGauge
+                .frame(width: 150, height: 150) // Sabit boyut
             
             Spacer()
             
-            calorieInfoView(value: "0", label: "Alinan")
+            // Kalan kalori bilgisi
+            VStack {
+                Text("\(Int(kalanKalori))")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Text("Kalan")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
             
             Spacer()
         }
+        .padding(.horizontal)
     }
     
-    /// Nutrition information section
+    /// Besin bilgileri bölümü
     private var nutritionInfoSection: some View {
-        HStack(spacing: 60) {
-            nutritionInfoView(label: "KarbonHidrat", value: "0")
-            nutritionInfoView(label: "KarbonHidrat", value: "0")
-            nutritionInfoView(label: "KarbonHidrat", value: "0")
+        HStack(spacing: 20) {
+            nutritionInfoView(label: "Protein", value: "0g")
+            nutritionInfoView(label: "Yağ", value: "0g")
+            nutritionInfoView(label: "Karbonhidrat", value: "0g")
         }
+        .padding(.horizontal)
     }
     
-    /// Calorie gauge
+    /// Kalori gauge
     private var calorieGauge: some View {
-        Gauge(value: kalanKalori, in: minValue...hedefKalori) {
-            // Empty gauge content
+        Gauge(value: current, in: minValue...hedefKalori) {
+            // Gauge başlık
+            Text("Hedef: \(Int(hedefKalori))")
+                .font(.caption)
         } currentValueLabel: {
             Text("\(Int(current))")
+                .font(.title2)
+                .fontWeight(.bold)
         } minimumValueLabel: {
             Text("\(Int(minValue))")
+                .font(.caption)
         } maximumValueLabel: {
             Text("\(Int(hedefKalori))")
+                .font(.caption)
         }
-        .gaugeStyle(CustomGaugeStyle(maxValue: hedefKalori, textgir: "Kalan Kcal", strokeColor: Color.blue))
+        .gaugeStyle(CustomGaugeStyle(
+            maxValue: hedefKalori,
+            textgir: "Kalan: \(Int(kalanKalori))",
+            strokeColor: current > hedefKalori ? .red : .blue
+        ))
     }
     
-    /// Calorie information view
-    private func calorieInfoView(value: String, label: String) -> some View {
-        VStack {
-            Text(value)
-            Text(label)
-        }
-    }
-    
-    /// Nutrition information view
+    /// Besin bilgisi görünümü
     private func nutritionInfoView(label: String, value: String) -> some View {
-        VStack {
+        VStack(spacing: 4) {
             Text(label)
                 .font(.footnote)
+                .foregroundColor(.secondary)
+            
             Text(value)
+                .font(.body)
+                .fontWeight(.medium)
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
-// MARK: - Preview
-#Preview {
-    ProductSider()
-}
