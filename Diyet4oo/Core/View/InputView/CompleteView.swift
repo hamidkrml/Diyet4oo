@@ -6,30 +6,62 @@
 //
 
 import SwiftUI
-
 struct CompleteView: View {
-    @EnvironmentObject var ViewModel: InputViewModel
+    @EnvironmentObject var viewModel: InputViewModel
+    @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) var dismiss
+    @State private var isLoading = false
+    @State private var errorMessage: String?
 
     var body: some View {
-        //let gunlukKalori = ViewModel.gunlukKaloriIhtiyaci()
         NavigationView {
             VStack(spacing: 30) {
-//                Text(ViewModel.selectedGender)
-//                Text(ViewModel.selectedMonth)
-//                Text(String(ViewModel.selectedDay))
-//                Text(String(ViewModel.selectedYear))
-//                Text(String(ViewModel.selectedHeight))
-//                Text(String(ViewModel.selectedWeight))
-//                Text(String(gunlukKalori))
+                if isLoading {
+                    ProgressView()
+                        .padding()
+                }
+                
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding()
+                }
                 
                 Button("Verileri Kaydet ve Kaloriyi Hesapla") {
-                    print("asdnjksalmk")
-                }
-                NavigationButton(destination: MainTabView())
-            }
-        }.toolbar { BackToolbarItem(dismiss: dismiss) }
-        
+                    guard !isLoading else { return }
+                    isLoading = true
+                    errorMessage = nil
 
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        viewModel.verileriKaydet()
+                        DispatchQueue.main.async {
+                            viewModel.hedefKalori() // Ana thread'de çağır!
+                            do {
+                                CoreDataManager.shared.completeOnboarding()
+                                appState.showOnboarding = false
+                            } catch {
+                                errorMessage = "Kayıt işlemi başarısız oldu: \(error.localizedDescription)"
+                                isLoading = false
+                            }
+                        }
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(isLoading)
+                .padding()
+                
+                NavigationLink(destination: MainTabView()) {
+                    Text("Ana Sayfaya Git")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+            }
+            .navigationBarTitle("Kayıt Tamamlandı", displayMode: .inline)
+        }
+        .toolbar { BackToolbarItem(dismiss: dismiss) }
     }
 }

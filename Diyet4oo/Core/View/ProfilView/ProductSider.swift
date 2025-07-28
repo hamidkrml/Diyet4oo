@@ -10,21 +10,30 @@ import SwiftUI
 /// A view that displays daily calorie tracking with a gauge and nutrition information
 struct ProductSider: View {
     // MARK: - Properties
-    @State private var current = 0.0
+    
     @State private var minValue = 0.0
     
     @FetchRequest(
         entity: DailyIntake.entity(),
-        sortDescriptors: []
+        sortDescriptors: [],
+        predicate: NSPredicate(format: "date == %@", Calendar.current.startOfDay(for: Date()) as NSDate)
     ) var profiles: FetchedResults<DailyIntake>
     
+    var current: Double {
+        Double(profiles.first?.caloriesTaken ?? 0)
+    }
     // MARK: - Computed Properties
     var hedefKalori: Double {
         Double(profiles.first?.dailyCalories ?? 2000)
     }
     
     var kalanKalori: Double {
-        max(0, hedefKalori - current) // Negatif değerleri önlemek için
+        let kalan = hedefKalori - current
+        return kalan > 0 ? kalan : 0
+    }
+
+    var gaugeMaxValue: Double {
+        max(hedefKalori, current)
     }
     
     // MARK: - Body
@@ -50,6 +59,22 @@ struct ProductSider: View {
         )
         .modifier(CardModifier())
         .padding(.vertical)
+        .onAppear {
+            // Eğer bugünün kaydı yoksa otomatik oluştur
+            if profiles.first == nil {
+                let context = CoreDataManager.shared.viewContext
+                let daily = DailyIntake(context: context)
+                daily.date = Calendar.current.startOfDay(for: Date())
+                daily.dailyCalories = Int32(InputViewModel().gunlukKaloriIhtiyaci())
+                do {
+                    try context.save()
+                } catch {
+                    print("Bugünün kaydı oluşturulamadı: \(error)")
+                }
+            }
+            // current değerini güncelle
+            
+        }
     }
     
     // MARK: - UI Components
@@ -95,16 +120,16 @@ struct ProductSider: View {
     /// Besin bilgileri bölümü
     private var nutritionInfoSection: some View {
         HStack(spacing: 20) {
-            nutritionInfoView(label: "Protein", value: "0g")
-            nutritionInfoView(label: "Yağ", value: "0g")
-            nutritionInfoView(label: "Karbonhidrat", value: "0g")
+            nutritionInfoView(label: "Protein", value: "\(profiles.first?.proteinTaken ?? 0)g")
+            nutritionInfoView(label: "Yağ", value: "\(profiles.first?.fatTaken ?? 0)g")
+            nutritionInfoView(label: "Karbonhidrat", value: "\(profiles.first?.carbTaken ?? 0)g")
         }
         .padding(.horizontal)
     }
     
     /// Kalori gauge
     private var calorieGauge: some View {
-        Gauge(value: current, in: minValue...hedefKalori) {
+        Gauge(value: current, in: minValue...gaugeMaxValue) {
             // Gauge başlık
             Text("Hedef: \(Int(hedefKalori))")
                 .font(.caption)
@@ -116,11 +141,11 @@ struct ProductSider: View {
             Text("\(Int(minValue))")
                 .font(.caption)
         } maximumValueLabel: {
-            Text("\(Int(hedefKalori))")
+            Text("\(Int(gaugeMaxValue))")
                 .font(.caption)
         }
         .gaugeStyle(CustomGaugeStyle(
-            maxValue: hedefKalori,
+            maxValue: gaugeMaxValue,
             textgir: "Kalan: \(Int(kalanKalori))",
             strokeColor: current > hedefKalori ? .red : .blue
         ))

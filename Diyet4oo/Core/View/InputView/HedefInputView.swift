@@ -13,7 +13,7 @@ struct HedefInputView: View {
      let HedefHaftan = Array(1...30)
      @Environment(\.dismiss) var dismiss
      @EnvironmentObject var ViewModel: InputViewModel
-
+    @EnvironmentObject var appState: AppState
      
      var body: some View {
          NavigationStack {
@@ -35,7 +35,8 @@ struct HedefInputView: View {
                      
                      Spacer()
                      NavigationButton(destination: CompleteView()   .environmentObject(ViewModel)
-                     
+                            .environmentObject(appState)
+
                      )
                      
                      Button{

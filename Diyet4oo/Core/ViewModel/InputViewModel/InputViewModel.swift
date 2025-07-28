@@ -30,37 +30,7 @@ class InputViewModel : ObservableObject {
     init(repository: CoreDataRepository<UserProfile> = .init(),
          coreDataStack: CoreDataManager = .shared) {
         self.repository = repository
-        
-        setupAutoSave()
-    }
-    // MARK: - genel o veri tabanlarin belirli bir zamandan sonra dinlenip core data kayit eden sure
-    private func setupAutoSave() {
-        // 8 yayını birleştirmek için iç içe CombineLatest kullanımı
-        Publishers.CombineLatest(
-            Publishers.CombineLatest4(
-                $selectedGender,
-                $selectedYear,
-                $selectedHeight,
-                $selectedWeight
-            ),
-            Publishers.CombineLatest4(
-                $selectedDay,
-                $selectedMonth,
-                $hedefKilon,
-                $hdefHaftan
-            )
-        )
-        .debounce(for: .seconds(6.0), scheduler: RunLoop.main)
-        .sink { [weak self] _ in
-            // hedefKalori fonksiyonu hemen çağrılır
-            self?.hedefKalori()
-            
-            // verileriKaydet fonksiyonu 2 saniye gecikmeli çağrılır
-            DispatchQueue.main.asyncAfter(deadline: .now() + 40.0) {
-                self?.verileriKaydet()
-            }
-        }
-        .store(in: &cancellables)
+        // setupAutoSave() kaldırıldı, otomatik kayıt yok
     }
     
     
@@ -91,28 +61,37 @@ class InputViewModel : ObservableObject {
             userProfile.targetWeight = Int32(self.hedefKilon)
             userProfile.targetWeeks = Int32(self.hdefHaftan)
             
-            repository.save()
+            
+            do {
+                try repository.save()
+            } catch {
+                print("Veri kaydedilirken hata oluştu: \(error)")
+            }
+            
         }
     }
     
     
     // kullancinin gunluk tuketmesi gerek degerin core data Kayit
     func hedefKalori(){
-        let context = CoreDataManager.shared.backgroundContext()
+        let context = CoreDataManager.shared.viewContext // Artık ana context kullanılıyor
         let repository = CoreDataRepository<DailyIntake>(context: context)
-        
         context.perform {
             let existingProfiles = repository.fetchAll()
             let dailyIntake: DailyIntake
-            
             if let existing = existingProfiles.first {
                 dailyIntake = existing
             } else {
                 dailyIntake = repository.create()
             }
-            
             dailyIntake.dailyCalories = Int32(self.gunlukKaloriIhtiyaci())
-            repository.save()
+            print("Hedef kalori hesaplandı:", dailyIntake.dailyCalories)
+            do {
+                try repository.save()
+                print("Hedef kalori ana context ile kaydedildi:", dailyIntake.dailyCalories)
+            } catch {
+                print("Veri kaydedilirken hata oluştu: \(error)")
+            }
         }
     }
     
@@ -161,7 +140,6 @@ class InputViewModel : ObservableObject {
         let minimumKalori = gender == "Erkek" ? 1500.0 : 1200.0
         return Int(max(netKalori, minimumKalori))
     }
-    
     
     
     
