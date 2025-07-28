@@ -43,6 +43,7 @@ struct SearchView: View {
             )
         }
         .navigationViewStyle(.stack)
+        .toolbar(.hidden, for: .tabBar)
     }
     
     // MARK: - UI Components

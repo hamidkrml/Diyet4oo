@@ -49,6 +49,7 @@ struct SearchDetailView: View {
                 .navigationBarTitleDisplayMode(.inline)
         }
         Spacer()
+            .toolbar(.hidden, for: .tabBar)
     }
 }
 //
