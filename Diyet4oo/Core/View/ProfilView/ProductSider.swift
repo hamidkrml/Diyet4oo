@@ -65,7 +65,7 @@ struct ProductSider: View {
                 let context = CoreDataManager.shared.viewContext
                 let daily = DailyIntake(context: context)
                 daily.date = Calendar.current.startOfDay(for: Date())
-                daily.dailyCalories = Int32(InputViewModel().gunlukKaloriIhtiyaci())
+                daily.dailyCalories = Int32(InputViewModel().calculateDailyCalorieNeeds())
                 do {
                     try context.save()
                 } catch {

@@ -28,14 +28,14 @@ struct CompleteView: View {
                 }
                 
                 Button("Verileri Kaydet ve Kaloriyi Hesapla") {
-                    guard !isLoading else { return }
+                    guard !isLoading else { return}
                     isLoading = true
                     errorMessage = nil
 
                     DispatchQueue.global(qos: .userInitiated).async {
-                        viewModel.verileriKaydet()
+                        viewModel.calculateDailyCalorieNeeds()
                         DispatchQueue.main.async {
-                            viewModel.hedefKalori() // Ana thread'de çağır!
+                            viewModel.saveDailyCalorieTarget() // Ana thread'de çağır!
                             do {
                                 CoreDataManager.shared.completeOnboarding()
                                 appState.showOnboarding = false

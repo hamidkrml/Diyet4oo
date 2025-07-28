@@ -1,5 +1,5 @@
 //
-//  ButtonCompenet.swift
+//  ButtonComponent.swift
 //  Diyet4oo
 //
 //  Created by hamid on 25.04.2025.
@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct ButtonCompenet: View {
-    var tiitle : String
+struct ButtonComponent: View {
+    var title: String
     var body: some View {
-        Text(tiitle)
+        Text(title)
             .font(.subheadline)
             .fontWeight(.bold)
             .frame(maxWidth: .infinity,minHeight: 30)

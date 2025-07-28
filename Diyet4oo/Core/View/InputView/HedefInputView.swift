@@ -23,8 +23,8 @@ struct HedefInputView: View {
                      ProgressBarView(currentStep: 4, totalSteps: 4)
                      // picker boyutlandirmak icin
                      VStack(spacing: geometry.size.width * 0.09) {
-                         TextPickerComppent(baslik: "Hedef Kilon: ", deger: $ViewModel.hedefKilon, secenekler: hedefKilon)
-                         TextPickerComppent(baslik: "Hedef Haftan: ", deger: $ViewModel.hdefHaftan, secenekler: HedefHaftan)
+                         TextPickerComppent(baslik: "Hedef Kilon: ", deger: $ViewModel.targetWeight, secenekler: hedefKilon)
+                         TextPickerComppent(baslik: "Hedef Haftan: ", deger: $ViewModel.targetWeeks, secenekler: HedefHaftan)
                         
                          
                      }

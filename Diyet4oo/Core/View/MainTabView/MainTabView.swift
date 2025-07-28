@@ -11,19 +11,15 @@ struct MainTabView: View {
     @EnvironmentObject var viewModel: InputViewModel
     var body: some View {
         TabView {
-            ProfilView()
-            
+            GunlukView()
                 .tabItem {
                     Label("Günlük", systemImage: "book.pages")
                 }
             
-            
-            
-            GunlukView()
+            ProfilView()
                 .tabItem {
                     Label("Profil", systemImage: "person.fill")
                 }
-            
         }
         
     }
