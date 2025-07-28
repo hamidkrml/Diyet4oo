@@ -22,4 +22,7 @@ import CoreData
 @objc(Food)
  class Food: NSManagedObject {
 
+     
 }
+
+  

@@ -9,6 +9,15 @@ import SwiftUI
 
 struct SearchDetailView: View {
     let food: Food
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dismiss) var dismiss
+    @StateObject private var viewModel: SearchDetailViewModel
+
+    init(food: Food) {
+        self.food = food
+        _viewModel = StateObject(wrappedValue: SearchDetailViewModel(context: CoreDataManager.shared.persistentContainer.viewContext))
+    }
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -39,7 +48,8 @@ struct SearchDetailView: View {
                     Divider()
                     
                     PrimaryButton(title: "Yeni Ekle", icon: "dot.circle.and.hand.point.up.left.fill") {
-                        print("hesaplama burada yapilacak")
+                        viewModel.addFoodToTodayIntake(food: food)
+                        dismiss()
                     }
                     
                     

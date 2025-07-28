@@ -58,7 +58,9 @@ extension DailyIntake {
     @NSManaged public var date : Date?
     @NSManaged public var caloriesTaken: Int32
     @NSManaged public var dailyCalories:Int32
-    
+    @NSManaged public var proteinTaken: Double
+    @NSManaged public var fatTaken: Double
+    @NSManaged public var carbTaken: Double
 }
 
 extension DailyIntake : Identifiable {
@@ -89,3 +91,20 @@ extension Food {
 extension Food : Identifiable {
 
 }
+
+
+//extension OnboardingState {
+//
+//    @nonobjc public class func fetchRequest() -> NSFetchRequest<OnboardingState> {
+//        return NSFetchRequest<OnboardingState>(entityName: "OnboardingState")
+//    }
+//
+//   
+//    @NSManaged public var isCompleted : Bool           // Malzeme Adı
+//        // Fiber (g)
+//    
+//}
+//
+//extension OnboardingState : Identifiable {
+
+//}

@@ -4,57 +4,84 @@
 //
 //  Created by hamid on 30.04.2025.
 //
-
 import CoreData
 
 class CoreDataManager {
     static let shared = CoreDataManager()
     private init() {}
     
-    
-    
-    
     // MARK: - Persistent Container
     lazy var persistentContainer: NSPersistentContainer = {
-        let modelName = "diyet4oo" // Data Model dosyanızın adı
-        let container = NSPersistentContainer(name: modelName)
-        
+        let container = NSPersistentContainer(name: "diyet4oo")
         
         let storeDescription = container.persistentStoreDescriptions.first
-        
-        // Lightweight Migration aktif et (Model değişikliklerinde otomatik geçiş)
         storeDescription?.setOption(true as NSNumber, forKey: NSMigratePersistentStoresAutomaticallyOption)
         storeDescription?.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
         
-        container.loadPersistentStores { [weak self] _, error in
+        container.loadPersistentStores { _, error in
             if let error = error {
-                
+                print("Core Data load error: \(error)")
             }
-            
-            
         }
-        // Main thread kısıtlaması (UI için güvenlik)
-
-
-
         
-
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.shouldDeleteInaccessibleFaults = true
         return container
     }()
+    
     var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext
     }
     
-    // Background Context
-    func backgroundContext() -> NSManagedObjectContext {
-        persistentContainer.newBackgroundContext()
+    // MARK: - Onboarding State Management
+    func isOnboardingCompleted() -> Bool {
+        let request: NSFetchRequest<OnboardingState> = OnboardingState.fetchRequest()
+        request.fetchLimit = 1
+        
+        do {
+            let state = try viewContext.fetch(request).first
+            return state?.isCompleted ?? false
+        } catch {
+            print("Onboarding state fetch error: \(error)")
+            return false
+        }
     }
     
-    // Save işlemi
-    func saveContext(_ context: NSManagedObjectContext)->Result<Void, Error> {
+    func completeOnboarding() {
+        if NSEntityDescription.entity(forEntityName: "OnboardingState", in: viewContext) == nil {
+            print("❌ OnboardingState entity bulunamadı!")
+        } else {
+            print("✅ OnboardingState entity bulundu.")
+        }
+        let request: NSFetchRequest<OnboardingState> = OnboardingState.fetchRequest()
+        request.fetchLimit = 1
+        
+        do {
+            let state = try viewContext.fetch(request).first ?? OnboardingState(context: viewContext)
+            state.isCompleted = true
+            try saveContext(viewContext) // Burada saveContext kullanıyoruz
+        } catch {
+            print("Failed to save onboarding state: \(error)")
+            viewContext.rollback()
+        }
+    }
+    
+    // MARK: - Background Context
+    func backgroundContext() -> NSManagedObjectContext {
+        let context = persistentContainer.newBackgroundContext()
+        context.automaticallyMergesChangesFromParent = true
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        return context
+    }
+    
+    // MARK: - Save Context (Düzeltilmiş)
+    func saveContext(_ context: NSManagedObjectContext) throws {
+        guard context.hasChanges else { return }
+        try context.save()
+    }
+    
+    func saveContextWithResult(_ context: NSManagedObjectContext) -> Result<Void, Error> {
         guard context.hasChanges else { return .success(()) }
         
         do {
@@ -66,15 +93,15 @@ class CoreDataManager {
         }
     }
     
-    
+    // MARK: - Data Initialization
     func initializeData() {
-
         DispatchQueue.global(qos: .userInitiated).async { [self] in
-            CSVImporter.importCSVInBackground(named: "Food", container: persistentContainer)
+            let context = backgroundContext()
+            context.perform {
+                if !self.isOnboardingCompleted() {
+                    CSVImporter.importCSVInBackground(named: "Food", container: persistentContainer)
+                }
+            }
         }
-        
     }
-    
-
 }
-

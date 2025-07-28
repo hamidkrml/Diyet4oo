@@ -45,6 +45,7 @@ struct ProfilView: View {
                 }
             }
         }
+        
     }
     
     // MARK: - UI Components

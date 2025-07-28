@@ -6,12 +6,13 @@
 //
 import CoreData
 
+
 protocol CoreDataRepositoryProtocol {
     associatedtype Entity: NSManagedObject
     func fetchAll() -> [Entity]
     func create() -> Entity
     func delete(_ entity: Entity)
-    func save()
+    func save() throws
 }
 
 class CoreDataRepository<T: NSManagedObject>: CoreDataRepositoryProtocol {
@@ -26,7 +27,7 @@ class CoreDataRepository<T: NSManagedObject>: CoreDataRepositoryProtocol {
         do {
             return try context.fetch(request)
         } catch {
-           
+            print("Fetch error: \(error)")
             return []
         }
     }
@@ -39,7 +40,7 @@ class CoreDataRepository<T: NSManagedObject>: CoreDataRepositoryProtocol {
         context.delete(entity)
     }
     
-    func save() {
-        CoreDataManager.shared.saveContext(context)
+    func save() throws {
+        try CoreDataManager.shared.saveContext(context)
     }
 }
