@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @EnvironmentObject var viewModel: InputViewModel
     var body: some View {
         TabView {
             ProfilView()
@@ -15,6 +16,8 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Günlük", systemImage: "book.pages")
                 }
+            
+            
             
             GunlukView()
                 .tabItem {

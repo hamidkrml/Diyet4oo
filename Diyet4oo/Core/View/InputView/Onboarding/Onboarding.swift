@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Onboarding: View {
+    
     var body: some View {
         NavigationView{
             VStack(spacing: 20) {
@@ -33,6 +34,7 @@ struct Onboarding: View {
                 .padding(.horizontal)
                 Spacer()
                 NavigationButton(destination: CinsiyetInputView())
+              
                 
             }
         }
@@ -40,9 +42,9 @@ struct Onboarding: View {
     }
 }
 
-#Preview {
-    Onboarding()
-}
+//#Preview {
+//    Onboarding(hasSeenOnboarding: .constant(false))
+
 
 struct GroupBoxBaslik: View {
     var body: some View {
